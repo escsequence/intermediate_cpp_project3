@@ -70,13 +70,14 @@ int main()
 
 	// Print out information on all the ground parcels the user created
 	for (int i = 0; i < ground.size(); i++) {
-
+		cout << "Ground Parcel #" << i << ":\n" << ground[i].toString() << endl;
 	}
 
 	// Print out information on all the overnight parcels the user created
 	for (int j = 0; j < overnight.size(); j++) {
-
+		cout << "Overnight Parcel #" << j << ":\n" << overnight[j].toString() << endl;
 	}
 
+	// End program
 	return -1;
 }
