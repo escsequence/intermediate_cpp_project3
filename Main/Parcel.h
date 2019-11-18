@@ -37,12 +37,12 @@ class Parcel {
     void setCostPerOz(double);
 
     // Getters
-    string getName() {return name;}
-    Contact getSenderAddress() {return senderContact;}
-    Contact getReceiverAddress() {return receieverAddress;}
-    double getFee() {return fee;}
-    double getWeight() {return weight;}
-    double getCostPerOz() {return costPerOz;}
+    string getName();
+    Contact getSenderAddress();
+    Contact getReceiverAddress();
+    double getFee();
+    double getWeight();
+    double getCostPerOz();
 
     virtual double calculateCost() = 0;
     virtual string toString() = 0;
