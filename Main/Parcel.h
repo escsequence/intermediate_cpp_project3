@@ -14,33 +14,27 @@ class Parcel {
     Contact senderAddress;
     Contact receieverAddress;
 
+    // Other attributes of the Parcel object
     double fee;
     double weight;
     double costPerOz;
   public:
 
     // Constructors
-    Parcel() {}
-    Parcel(int number, string name, Contact sender, Contact receiver, double fee, double weight, double oz) {
-      this->parcelNumber = number;
-      this->name = name;
-      this->senderAddress = sender;
-      this->receieverAddress = receiver;
-      this->fee = fee;
-      this->weight = weight;
-      this->costPerOz = oz;
-    }
+    Parcel();
+    Parcel(int number, string name, Contact sender, Contact receiver,
+      double fee, double weight, double oz);
 
     // Destructor
-    ~Parcel() {}
+    ~Parcel();
 
     // Setters
-    void setName(string name){this->name = name;}
-    void setSenderAddress(Contact contact) {senderAddress = contact;}
-    void setReceiverAddress(Contact content) {receieverAddress = conact;}
-    void setFee(double fee) {this->fee = fee;}
-    void setWeight(double weight) {this->weight = weight;}
-    void setCostPerOz(double oz) {costPerOz = oz;}
+    void setName(string);
+    void setSenderAddress(Contact);
+    void setReceiverAddress(Contact);
+    void setFee(double);
+    void setWeight(double);
+    void setCostPerOz(double);
 
     // Getters
     string getName() {return name;}
@@ -50,8 +44,7 @@ class Parcel {
     double getWeight() {return weight;}
     double getCostPerOz() {return costPerOz;}
 
-    double calculateCost();
-
+    virtual double calculateCost() = 0;
     virtual string toString() = 0;
 };
 
