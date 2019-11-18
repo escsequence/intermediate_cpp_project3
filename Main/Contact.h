@@ -1,14 +1,14 @@
 #ifndef CONTACT_H
 #define CONTACT_H
 #include <iostream>
-using namespace std;
+
 struct Contact {
   // Name
-  string name;
+  std::string name;
   // Address
-  string addressStreet;
-  string addressCity;
-  string addressState;
-  string addressZip;
+  std::string addressStreet;
+  std::string addressCity;
+  std::string addressState;
+  std::string addressZip;
 };
 #endif

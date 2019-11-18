@@ -1,5 +1,7 @@
 #include "Parcel.h"
 
+using namespace std;
+
 Parcel::Parcel() {}
 Parcel::~Parcel() {}
 

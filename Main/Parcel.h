@@ -8,7 +8,7 @@ class Parcel {
     int parcelNumber;
 
     // Name of parcel?
-    string name;
+    std::string name;
 
     // Contact information
     Contact senderAddress;
@@ -22,14 +22,14 @@ class Parcel {
 
     // Constructors
     Parcel();
-    Parcel(int number, string name, Contact sender, Contact receiver,
+    Parcel(int number, std::string name, Contact sender, Contact receiver,
       double fee, double weight, double oz);
 
     // Destructor
     ~Parcel();
 
     // Setters
-    void setName(string);
+    void setName(std::string);
     void setSenderAddress(Contact);
     void setReceiverAddress(Contact);
     void setFee(double);
@@ -37,7 +37,7 @@ class Parcel {
     void setCostPerOz(double);
 
     // Getters
-    string getName();
+    std::string getName();
     Contact getSenderAddress();
     Contact getReceiverAddress();
     double getFee();
@@ -45,7 +45,7 @@ class Parcel {
     double getCostPerOz();
 
     virtual double calculateCost() = 0;
-    virtual string toString() = 0;
+    virtual std::string toString() = 0;
 };
 
 #endif
