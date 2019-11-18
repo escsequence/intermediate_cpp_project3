@@ -3,7 +3,7 @@
 #include "Contact.h"
 
 class Parcel {
-  private:
+  protected:
     // Parcel #
     int parcelNumber;
 
@@ -31,6 +31,9 @@ class Parcel {
       this->costPerOz = oz;
     }
 
+    // Destructor
+    ~Parcel() {}
+
     // Setters
     void setName(string name){this->name = name;}
     void setSenderAddress(Contact contact) {senderAddress = contact;}
@@ -47,6 +50,9 @@ class Parcel {
     double getWeight() {return weight;}
     double getCostPerOz() {return costPerOz;}
 
+    double calculateCost();
+
+    virtual string toString() = 0;
 };
 
 #endif
