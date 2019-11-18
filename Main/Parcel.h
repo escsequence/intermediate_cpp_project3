@@ -19,6 +19,18 @@ class Parcel {
     double costPerOz;
   public:
 
+    // Constructors
+    Parcel() {}
+    Parcel(int number, string name, Contact sender, Contact receiver, double fee, double weight, double oz) {
+      this->parcelNumber = number;
+      this->name = name;
+      this->senderAddress = sender;
+      this->receieverAddress = receiver;
+      this->fee = fee;
+      this->weight = weight;
+      this->costPerOz = oz;
+    }
+
     // Setters
     void setName(string name){this->name = name;}
     void setSenderAddress(Contact contact) {senderAddress = contact;}
