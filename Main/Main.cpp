@@ -69,12 +69,12 @@ int main()
 	} while (go == true);
 
 	// Print out information on all the ground parcels the user created
-	for (int i = 0; i < 10; i++) {
+	for (int i = 0; i < ground.size(); i++) {
 
 	}
 
 	// Print out information on all the overnight parcels the user created
-	for (int j = 0; j < 10; j++) {
+	for (int j = 0; j < overnight.size(); j++) {
 
 	}
 

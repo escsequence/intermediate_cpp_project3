@@ -152,11 +152,15 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Contact.h" />
+    <ClInclude Include="GroundParcel.h" />
+    <ClInclude Include="OvernightParcel.h" />
     <ClInclude Include="Parcel.h" />
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="GroundParcel.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="OvernightParcel.cpp" />
     <ClCompile Include="Parcel.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

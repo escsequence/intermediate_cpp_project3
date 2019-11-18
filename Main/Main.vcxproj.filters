@@ -24,6 +24,12 @@
     <ClInclude Include="Parcel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="OvernightParcel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GroundParcel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -33,6 +39,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Parcel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="OvernightParcel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GroundParcel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
