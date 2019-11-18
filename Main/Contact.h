@@ -2,7 +2,7 @@
 #define CONTACT_H
 #include <iostream>
 
-struct Contact {
+typedef struct Contact {
   // Name
   std::string name;
   // Address
