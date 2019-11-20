@@ -12,7 +12,7 @@ class Parcel {
 
     // Contact information
     Contact senderAddress;
-    Contact receieverAddress;
+    Contact receiverAddress;
 
     // Other attributes of the Parcel object
     double fee;

@@ -10,7 +10,7 @@ Parcel::Parcel(int number, string name, Contact sender, Contact receiver, double
   this->parcelNumber = number;
   this->name = name;
   this->senderAddress = sender;
-  this->receieverAddress = receiver;
+  this->receiverAddress = receiver;
   this->fee = fee;
   this->weight = weight;
   this->costPerOz = oz;
@@ -25,7 +25,7 @@ void Parcel::setSenderAddress(Contact contact) {
 }
 
 void Parcel::setReceiverAddress(Contact contact) {
-  receieverAddress = contact;
+  receiverAddress = contact;
 }
 
 void Parcel::setFee(double fee) {
@@ -49,7 +49,7 @@ Contact Parcel::getSenderAddress() {
 }
 
 Contact Parcel::getReceiverAddress() {
-  return receieverAddress;
+  return receiverAddress;
 }
 
 double Parcel::getFee() {

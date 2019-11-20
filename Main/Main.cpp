@@ -33,7 +33,7 @@ int main()
 	// Begin the program's main loop to construct parcels
 	do {
 		// Show the user a list of options
-		cout << "What would you like to do now? Enter the corresponding number:\n\t1). Create a ground parcel\n\t2). Create an overnight parcel\n\t4). Display paystubs and quit." << endl;
+		cout << "What would you like to do now? Enter the corresponding number:\n\t1). Create a ground parcel\n\t2). Create an overnight parcel\n\t3). Display parcel information and quit." << endl;
 
 		// Ask user to make their choice
 		getline(cin, input);
@@ -42,6 +42,9 @@ int main()
 		switch (choice) {
 			case 1:
 			{
+				// Collect information
+				cout << "Please input the requested information: " << endl;
+				
 				// Assemble a new ground parcel from the inputted information
 				GroundParcel g();
 				vector<GroundParcel>::iterator i;
@@ -51,6 +54,9 @@ int main()
 			}
 			case 2:
 			{
+				// Collect information
+				cout << "Please input the requested information: " << endl;
+				
 				// Assemble a new overnight parcel from the inputted information
 				OvernightParcel o();
 				vector<OvernightParcel>::iterator j;
