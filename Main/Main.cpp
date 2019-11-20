@@ -49,7 +49,7 @@ int main()
 				GroundParcel g();
 				vector<GroundParcel>::iterator i;
 				i = ground.begin();
-				ground.insert(i, g);
+				//ground.insert(i, g);
 				break;
 			}
 			case 2:
@@ -61,7 +61,7 @@ int main()
 				OvernightParcel o();
 				vector<OvernightParcel>::iterator j;
 				j = overnight.begin();
-				overnight.insert(j, o);
+				//overnight.insert(j, o);
 				break;
 			}
 			case 3: 
@@ -82,7 +82,7 @@ int main()
 
 	// Print out information on all the ground parcels the user created
 	for (int i = 0; i < ground.size(); i++) {
-		cout << "Ground Parcel #" << i << ":\n" << ground[i].toString() << endl;
+		//cout << "Ground Parcel #" << i << ":\n" << ground[i].toString() << endl;
 	}
 
 	// Print out information on all the overnight parcels the user created
