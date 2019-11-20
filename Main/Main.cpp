@@ -47,9 +47,7 @@ int main()
 				
 				// Assemble a new ground parcel from the inputted information
 				GroundParcel g();
-				vector<GroundParcel>::iterator i;
-				i = ground.begin();
-				//ground.insert(i, g);
+				//ground.push_back(g);
 				break;
 			}
 			case 2:
@@ -59,9 +57,7 @@ int main()
 				
 				// Assemble a new overnight parcel from the inputted information
 				OvernightParcel o();
-				vector<OvernightParcel>::iterator j;
-				j = overnight.begin();
-				//overnight.insert(j, o);
+				//overnight.push_back(o);
 				break;
 			}
 			case 3: 

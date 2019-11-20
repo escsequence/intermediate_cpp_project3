@@ -38,8 +38,8 @@ public:
 	void setStandardWeight(double d);
 
 	//	Overrides
-	double calculateCost();
-	std::string toString();
+	double calculateCost() override;
+	std::string toString() override;
 };
 
 #endif
