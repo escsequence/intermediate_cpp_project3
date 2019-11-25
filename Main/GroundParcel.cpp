@@ -41,8 +41,8 @@ string GroundParcel::toString()
 {
 	string s = "Ground Parcel " + name + " (" + to_string(parcelNumber) + "):\nWeight: " + to_string(weight) + "\n\nFROM:\n" + senderAddress.name + "\n" +
 		senderAddress.addressStreet + "\n" + senderAddress.addressCity + ", " + senderAddress.addressState + " " + senderAddress.addressZip + "\n\nTO:\n" + receiverAddress.name + "\n" + receiverAddress.addressStreet
-		+ "\n" + receiverAddress.addressCity + ", " + receiverAddress.addressState + " " + receiverAddress.addressZip + "\nSent for $" + to_string(fee) + " and $" + to_string(costPerOz) + " for each ounce over " +
-		to_string(weight) + " oz.";
+		+ "\n" + receiverAddress.addressCity + ", " + receiverAddress.addressState + " " + receiverAddress.addressZip + "\nSent for $" + to_string(calculateCost()) + "($" + to_string(fee) + " and " + to_string(costPerOz) 
+		+ " per ounce for " + to_string(weight) + " oz).";
 
 	return s;
 }

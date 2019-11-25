@@ -64,8 +64,8 @@ string OvernightParcel::toString()
 {	
 	string s = "Parcel " + name + " (" + to_string(parcelNumber) + "):\nWeight: " + to_string(weight) + "\nTracking Number: " + to_string(trackingNumber) + "\n\nFROM:\n" + senderAddress.name + "\n" + 
 		senderAddress.addressStreet + "\n" + senderAddress.addressCity + ", " + senderAddress.addressState + " " + senderAddress.addressZip + "\n\nTO:\n" + receiverAddress.name + "\n" + receiverAddress.addressStreet 
-		+ "\n" + receiverAddress.addressCity + ", " + receiverAddress.addressState + " " + receiverAddress.addressZip + "\nSent for $" + to_string(fee) + " and $" + to_string(costPerOz) + " for each ounce over " + 
-		to_string(standardWeight) + " oz.";
+		+ "\n" + receiverAddress.addressCity + ", " + receiverAddress.addressState + " " + receiverAddress.addressZip + "\nSent for $" + to_string(calculateCost()) + "($" + to_string(fee) + " and $" + 
+		to_string(costPerOz) + " for each ounce over " + to_string(standardWeight) + " oz).";
 
 	return s;
 }
