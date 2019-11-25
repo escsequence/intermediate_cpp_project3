@@ -208,29 +208,19 @@ Contact handleContact()
 			cout << "Please input the requested information: " << endl;
 
 			// Name of Contact
-			cout << endl << "Name of Contact: ";
-			string name;
-			getline(cin, name);
+			string name = getInputFromuser("Name of Contact: ");
 
 			// Street Address of Contact
-			cout << endl << "Street Address: ";
-			string addressStreet;
-			getline(cin, addressStreet);
+			string addressStreet = getInputFromuser("Street Address: ");
 
 			// City of Contact
-			cout << endl << "City: ";
-			string addressCity;
-			getline(cin, addressCity);
+			string addressCity = getInputFromuser("City: ");
 
 			// State of Contact
-			cout << endl << "State: ";
-			string addressState;
-			getline(cin, addressState);
+			string addressState = getInputFromuser("State: ");
 
 			// Zip code of Contact
-			cout << endl << "Zip Code: ";
-			string addressZip;
-			getline(cin, addressZip);
+			string addressZip = getInputFromuser("Zip: ");;
 
 			// Create a contact with the given information
 			Contact userChoice(name, addressStreet, addressCity, addressState, addressZip);
