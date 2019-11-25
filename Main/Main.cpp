@@ -98,7 +98,8 @@ string getInputFromuser(string msg) {
 
 Contact getContactFromUser(string msg) {
 	cout << msg;
-	return handleContact();
+	Contact c = *handleContact();
+	return c;
 }
 
 void createGroundParcel()
@@ -183,13 +184,14 @@ void createOvernightParcel()
 	cout << endl << endl << "Thank you! Your ground parcel has been successfully created." << endl;
 }
 
-Contact handleContact()
+Contact* handleContact()
 {
 	// Declare an initialize the basic variables that will be required to run the loop and intake user choices
 	bool go = true;
 	int choice = 0;
 	string input = "";
-	Contact userChoice;
+	Contact dummy;
+	Contact *userChoice = &dummy;
 
 	// Loop to ensure operation is completed successfully
 	do {
@@ -222,7 +224,7 @@ Contact handleContact()
 
 				// Select the contact that the user chose
 				int choice = stoi(getInputFromuser(""));
-				userChoice = contacts[choice];
+				userChoice = &contacts[choice];
 				go = false;
 				break;
 			}
@@ -248,10 +250,11 @@ Contact handleContact()
 			string addressZip = getInputFromuser("Zip: ");;
 
 			// Create a contact with the given information
-			Contact userChoice(name, addressStreet, addressCity, addressState, addressZip);
+			Contact c(name, addressStreet, addressCity, addressState, addressZip);
+			userChoice = &c;
 
 			// Add the contact to list of created contacts
-			contacts.push_back(userChoice);
+			contacts.push_back(c);
 
 			// Break loop
 			go = false;

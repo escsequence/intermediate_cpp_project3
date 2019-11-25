@@ -23,7 +23,7 @@ void createOvernightParcel();
 Contact getContactFromUser(std::string msg);
 
 // This function allows the user to select a pre-existing Contact... or create a new one
-Contact handleContact();
+Contact* handleContact();
 
 // Prompts the user for a value and returns it
 std::string getInputFromuser(std::string msg);
