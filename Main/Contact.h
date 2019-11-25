@@ -38,7 +38,7 @@ typedef struct Contact {
 
 
   std::string toString() {
-    return "Contact " + name + "\nAddress (" + addressStreet + ", " + addressCity + " " + addressState + " " + addressZip + "\n";
+    return name + "\n" + addressStreet + "\n" + addressCity + ", " + addressState + " " + addressZip + "\n";
   }
 
 };
