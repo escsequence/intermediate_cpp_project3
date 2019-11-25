@@ -24,7 +24,7 @@ protected:
 public:
 	// Constructors
 	OvernightParcel();
-	OvernightParcel(int number, std::string name, Contact sender, Contact receiver, double fee, double weight, double oz, int trackingNumber, double standardWeight);
+	OvernightParcel(int number, std::string name, Contact* sender, Contact* receiver, double fee, double weight, double oz, int trackingNumber, double standardWeight);
 
 	// Destructor
 	~OvernightParcel();

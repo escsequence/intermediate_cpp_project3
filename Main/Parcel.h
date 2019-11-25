@@ -22,8 +22,8 @@ class Parcel {
     std::string name;
 
     // Contact information
-    Contact senderAddress;
-    Contact receiverAddress;
+    Contact *senderAddress;
+    Contact *receiverAddress;
 
     // Other attributes of the Parcel object
     double fee;
@@ -33,7 +33,7 @@ class Parcel {
 
     // Constructors
     Parcel();
-    Parcel(int number, std::string name, Contact sender, Contact receiver,
+    Parcel(int number, std::string name, Contact *sender, Contact *receiver,
       double fee, double weight, double oz);
 
     // Destructor
@@ -41,16 +41,16 @@ class Parcel {
 
     // Setters
     void setName(std::string);
-    void setSenderAddress(Contact);
-    void setReceiverAddress(Contact);
+    void setSenderAddress(Contact*);
+    void setReceiverAddress(Contact*);
     void setFee(double);
     void setWeight(double);
     void setCostPerOz(double);
 
     // Getters
     std::string getName();
-    Contact getSenderAddress();
-    Contact getReceiverAddress();
+    Contact *getSenderAddress();
+    Contact *getReceiverAddress();
     double getFee();
     double getWeight();
     double getCostPerOz();

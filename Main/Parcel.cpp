@@ -17,7 +17,7 @@ using namespace std;
 Parcel::Parcel() {}
 Parcel::~Parcel() {}
 
-Parcel::Parcel(int number, string name, Contact sender, Contact receiver, double fee, double weight, double oz)
+Parcel::Parcel(int number, string name, Contact *sender, Contact *receiver, double fee, double weight, double oz)
 {
   this->parcelNumber = number;
   this->name = name;
@@ -32,11 +32,11 @@ void Parcel::setName(string name) {
   this->name = name;
 }
 
-void Parcel::setSenderAddress(Contact contact) {
+void Parcel::setSenderAddress(Contact *contact) {
   senderAddress = contact;
 }
 
-void Parcel::setReceiverAddress(Contact contact) {
+void Parcel::setReceiverAddress(Contact *contact) {
   receiverAddress = contact;
 }
 
@@ -56,11 +56,11 @@ string  Parcel::getName() {
   return name;
 }
 
-Contact Parcel::getSenderAddress() {
+Contact *Parcel::getSenderAddress() {
   return senderAddress;
 }
 
-Contact Parcel::getReceiverAddress() {
+Contact *Parcel::getReceiverAddress() {
   return receiverAddress;
 }
 

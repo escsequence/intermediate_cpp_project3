@@ -18,7 +18,7 @@ using namespace std;
 GroundParcel::GroundParcel(){
 }
 
-GroundParcel::GroundParcel(int number, std::string name, Contact sender, Contact receiver,
+GroundParcel::GroundParcel(int number, std::string name, Contact* sender, Contact* receiver,
   double fee, double weight, double oz) : Parcel(number, name, sender, receiver,
   fee, weight, oz) {
 
@@ -39,9 +39,9 @@ double GroundParcel::calculateCost() {
 // Outputs all information about this parcel
 string GroundParcel::toString()
 {
-	string s = "Ground Parcel " + name + " (" + to_string(parcelNumber) + "):\nWeight: " + to_string(weight) + "\n\nFROM:\n" + senderAddress.name + "\n" +
-		senderAddress.addressStreet + "\n" + senderAddress.addressCity + ", " + senderAddress.addressState + " " + senderAddress.addressZip + "\n\nTO:\n" + receiverAddress.name + "\n" + receiverAddress.addressStreet
-		+ "\n" + receiverAddress.addressCity + ", " + receiverAddress.addressState + " " + receiverAddress.addressZip + "\nSent for $" + to_string(calculateCost()) + "($" + to_string(fee) + " and " + to_string(costPerOz) 
+	string s = "Ground Parcel " + name + " (" + to_string(parcelNumber) + "):\nWeight: " + to_string(weight) + "\n\nFROM:\n" + senderAddress->name + "\n" +
+		senderAddress->addressStreet + "\n" + senderAddress->addressCity + ", " + senderAddress->addressState + " " + senderAddress->addressZip + "\n\nTO:\n" + receiverAddress->name + "\n" + receiverAddress->addressStreet
+		+ "\n" + receiverAddress->addressCity + ", " + receiverAddress->addressState + " " + receiverAddress->addressZip + "\nSent for $" + to_string(calculateCost()) + "($" + to_string(fee) + " and " + to_string(costPerOz)
 		+ " per ounce for " + to_string(weight) + " oz).";
 
 	return s;

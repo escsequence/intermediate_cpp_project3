@@ -18,7 +18,7 @@ using namespace std;
 OvernightParcel::OvernightParcel() {}
 OvernightParcel::~OvernightParcel() {}
 
-OvernightParcel::OvernightParcel(int number, string name, Contact sender, Contact receiver, double fee, double weight, double oz, int trackingNumber, double standardWeight) :
+OvernightParcel::OvernightParcel(int number, string name, Contact *sender, Contact *receiver, double fee, double weight, double oz, int trackingNumber, double standardWeight) :
 	Parcel(number, name, sender, receiver, fee, weight, oz)
 {
 	this->trackingNumber = number;
@@ -62,9 +62,9 @@ double OvernightParcel::calculateCost()
 // Outputs all information about this parcel
 string OvernightParcel::toString()
 {	
-	string s = "Parcel " + name + " (" + to_string(parcelNumber) + "):\nWeight: " + to_string(weight) + "\nTracking Number: " + to_string(trackingNumber) + "\n\nFROM:\n" + senderAddress.name + "\n" + 
-		senderAddress.addressStreet + "\n" + senderAddress.addressCity + ", " + senderAddress.addressState + " " + senderAddress.addressZip + "\n\nTO:\n" + receiverAddress.name + "\n" + receiverAddress.addressStreet 
-		+ "\n" + receiverAddress.addressCity + ", " + receiverAddress.addressState + " " + receiverAddress.addressZip + "\nSent for $" + to_string(calculateCost()) + "($" + to_string(fee) + " and $" + 
+	string s = "Parcel " + name + " (" + to_string(parcelNumber) + "):\nWeight: " + to_string(weight) + "\nTracking Number: " + to_string(trackingNumber) + "\n\nFROM:\n" + senderAddress->name + "\n" +
+		senderAddress->addressStreet + "\n" + senderAddress->addressCity + ", " + senderAddress->addressState + " " + senderAddress->addressZip + "\n\nTO:\n" + receiverAddress->name + "\n" + receiverAddress->addressStreet
+		+ "\n" + receiverAddress->addressCity + ", " + receiverAddress->addressState + " " + receiverAddress->addressZip + "\nSent for $" + to_string(calculateCost()) + "($" + to_string(fee) + " and $" +
 		to_string(costPerOz) + " for each ounce over " + to_string(standardWeight) + " oz).";
 
 	return s;

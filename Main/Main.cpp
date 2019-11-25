@@ -96,10 +96,9 @@ string getInputFromuser(string msg) {
 	return tmp;
 }
 
-Contact getContactFromUser(string msg) {
+Contact* getContactFromUser(string msg) {
 	cout << msg;
-	Contact c = *handleContact();
-	return c;
+	return handleContact();
 }
 
 void createGroundParcel()
@@ -118,10 +117,10 @@ void createGroundParcel()
 	std::string name = getInputFromuser("Name of Parcel: ");
 
 	// Contact information for sender
-	Contact senderAddress = getContactFromUser("Who is the sender? ");
+	Contact *senderAddress = getContactFromUser("Who is the sender? ");
 
 	// Contact information for recipient
-	Contact receiverAddress = getContactFromUser("Who is the recipient? ");
+	Contact *receiverAddress = getContactFromUser("Who is the recipient? ");
 
 	// Fee
 	double fee = stod(getInputFromuser("Shipping fee: $"));
@@ -156,10 +155,10 @@ void createOvernightParcel()
 	string name = getInputFromuser("Name of Parcel: ");
 
 	// Contact information for sender
-	Contact senderAddress = getContactFromUser("Who is the sender? ");
+	Contact *senderAddress = getContactFromUser("Who is the sender? ");
 
 	// Contact information for recipient
-	Contact receiverAddress = getContactFromUser("Who is the recipient? ");
+	Contact *receiverAddress = getContactFromUser("Who is the recipient? ");
 
 	// Fee
 	double fee = stod(getInputFromuser("Shipping fee: $"));
