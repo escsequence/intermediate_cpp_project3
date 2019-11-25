@@ -1,3 +1,14 @@
+/*
+* Contact.h
+* Written by: James Johnston
+* Written for: COMPSCI 222 Project 3
+* Created on: 11/18/2019
+*/
+
+/*
+* Struct for contacts
+*/
+
 #ifndef CONTACT_H
 #define CONTACT_H
 #include <iostream>

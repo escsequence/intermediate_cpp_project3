@@ -1,3 +1,14 @@
+/*
+* GroundParcel.h
+* Written by: James Johnston
+* Written for: COMPSCI 222 Project 3
+* Created on: 11/18/2019
+*/
+
+/*
+* Parcel class implementation
+*/
+
 #include "pch.h"
 #include "Parcel.h"
 

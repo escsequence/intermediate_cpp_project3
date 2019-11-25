@@ -1,5 +1,17 @@
+/*
+* GroundParcel.h
+* Written by: James Johnston
+* Written for: COMPSCI 222 Project 3
+* Created on: 11/24/2019
+*/
+
+/*
+* Ground Parcel class implementation
+*/
+
 #include "pch.h"
 #include "GroundParcel.h"
+#include <string>
 
 using namespace std;
 
@@ -25,7 +37,7 @@ double GroundParcel::calculateCost() {
 }
 
 // Outputs all information about this parcel
-string OvernightParcel::toString()
+string GroundParcel::toString()
 {
 	string s = "Ground Parcel " + name + " (" + to_string(parcelNumber) + "):\nWeight: " + to_string(weight) + "\n\nFROM:\n" + senderAddress.name + "\n" +
 		senderAddress.addressStreet + "\n" + senderAddress.addressCity + ", " + senderAddress.addressState + " " + senderAddress.addressZip + "\n\nTO:\n" + receiverAddress.name + "\n" + receiverAddress.addressStreet

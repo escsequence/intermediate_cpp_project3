@@ -1,3 +1,14 @@
+/*
+* OvernightParcel.cpp
+* Written by: Alec Ochowski
+* Written for: COMPSCI 222 Project 3
+* Created on: 11/21/2019
+*/
+
+/*
+* Class implementation for OvernightParcel
+*/
+
 #include "pch.h"
 #include "OvernightParcel.h"
 #include <string>
