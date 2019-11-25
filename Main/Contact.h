@@ -14,8 +14,10 @@
 #include <iostream>
 
 typedef struct Contact {
+
   // Name
   std::string name;
+
   // Address
   std::string addressStreet;
   std::string addressCity;
