@@ -72,7 +72,7 @@ int main()
 
 	// Print out information on all the ground parcels the user created
 	for (int i = 0; i < ground.size(); i++) {
-		//cout << "Ground Parcel #" << i << ":\n" << ground[i].toString() << endl;
+		cout << "Ground Parcel #" << i << ":\n" << ground[i].toString() << endl;
 	}
 
 	// Print out information on all the overnight parcels the user created
@@ -130,7 +130,7 @@ void createGroundParcel()
 	GroundParcel g(parcelNumber, name, senderAddress, receiverAddress, fee, weight, costPerOz);
 
 	// Push the ground parcel to the vector
-	//ground.push_back(g);
+	ground.push_back(g);
 	cout << endl << endl << "Thank you! Your ground parcel has been successfully created." << endl;
 }
 
@@ -174,7 +174,7 @@ void createOvernightParcel()
 	OvernightParcel o(parcelNumber, name, senderAddress, receiverAddress, fee, weight, costPerOz, trackingNumber, standardWeight);
 
 	// Push the ground parcel to the vector
-	//overnight.push_back(o);
+	overnight.push_back(o);
 	cout << endl << endl << "Thank you! Your ground parcel has been successfully created." << endl;
 }
 
@@ -226,7 +226,7 @@ Contact handleContact()
 			Contact userChoice(name, addressStreet, addressCity, addressState, addressZip);
 
 			// Add the contact to list of created contacts
-			//contacts.push_back(userChoice);
+			contacts.push_back(userChoice);
 
 			// Break loop
 			go = false;
