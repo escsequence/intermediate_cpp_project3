@@ -20,6 +20,10 @@ void createGroundParcel();
 void createOvernightParcel();
 
 // This function allows the user to select a pre-existing Contact... or create a new one
+Contact getContactFromUser(std::string msg);
+
 Contact handleContact();
+
+std::string getInputFromuser(std::string msg);
 
 #endif

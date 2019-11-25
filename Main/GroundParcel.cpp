@@ -33,7 +33,7 @@ GroundParcel::~GroundParcel(){
  * weight times cost per ounce + additional fee
  */
 double GroundParcel::calculateCost() {
-  return (weight * oz) + fee;
+  return (weight * costPerOz) + fee;
 }
 
 // Outputs all information about this parcel
@@ -42,7 +42,7 @@ string GroundParcel::toString()
 	string s = "Ground Parcel " + name + " (" + to_string(parcelNumber) + "):\nWeight: " + to_string(weight) + "\n\nFROM:\n" + senderAddress.name + "\n" +
 		senderAddress.addressStreet + "\n" + senderAddress.addressCity + ", " + senderAddress.addressState + " " + senderAddress.addressZip + "\n\nTO:\n" + receiverAddress.name + "\n" + receiverAddress.addressStreet
 		+ "\n" + receiverAddress.addressCity + ", " + receiverAddress.addressState + " " + receiverAddress.addressZip + "\nSent for $" + to_string(fee) + " and $" + to_string(costPerOz) + " for each ounce over " +
-		to_string(standardWeight) + " oz.";
+		to_string(weight) + " oz.";
 
 	return s;
 }

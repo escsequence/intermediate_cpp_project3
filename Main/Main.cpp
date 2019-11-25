@@ -54,7 +54,7 @@ int main()
 				createOvernightParcel();
 				break;
 			}
-			case 3: 
+			case 3:
 			{
 				// Set the variable to false to break the while loop
 				cout << "Thank you for using the parcel management program. Look below for details on your parcels:" << endl;
@@ -84,32 +84,38 @@ int main()
 	return -1;
 }
 
-void createGroundParcel() 
+std::string getInputFromuser(std::string msg) {
+	string tmp;
+	cout << msg;
+	getline(cin, tmp);
+	return tmp;
+}
+
+Contact getContactFromUser(std::string msg) {
+	cout << msg;
+	return handleContact();
+}
+
+void createGroundParcel()
 {
 	// Create variables to gather input
 	int val = 0;
 	string input = "";
-	
+
 	// Collect information
 	cout << "Please input the requested information: " << endl;
-	
+
 	// Parcel Number
-	cout << "Parcel Number: #";
-	getline(cin, input);
-	int parcelNumber = stoi(input);
+	int parcelNumber = stoi(getInputFromuser("Parcel Number: #"));
 
 	// Name of Parcel
-	cout << endl << "Name of Parcel: ";
-	string name;
-	getline(cin, name);
+	std::string name = getInputFromuser("Name of Parcel: ");
 
 	// Contact information for sender
-	cout << endl << "Who is the sender? ";
-	Contact senderAddress = handleContact();
+	Contact senderAddress = getContactFromUser("Who is the sender? ");
 
 	// Contact information for recipient
-	cout << endl << "Who is the recipient? ";
-	Contact receiverAddress = handleContact();
+	Contact receiverAddress = getContactFromUser("Who is the recipient? ");
 
 	// Fee
 	cout << endl << "Shipping fee: $";
@@ -125,7 +131,7 @@ void createGroundParcel()
 	cout << endl << "Cost per oz: $";
 	getline(cin, input);
 	double costPerOz = stod(input);
-	
+
 	// Assemble a new ground parcel from the inputted information
 	GroundParcel g(parcelNumber, name, senderAddress, receiverAddress, fee, weight, costPerOz);
 
@@ -154,12 +160,10 @@ void createOvernightParcel()
 	getline(cin, name);
 
 	// Contact information for sender
-	cout << endl << "Who is the sender? ";
-	Contact senderAddress = handleContact();
+	Contact senderAddress = getContactFromUser("Who is the sender? ");
 
 	// Contact information for recipient
-	cout << endl << "Who is the recipient? ";
-	Contact receiverAddress = handleContact();
+	Contact receiverAddress = getContactFromUser("Who is the recipient? ");
 
 	// Fee
 	cout << endl << "Shipping fee: $";
@@ -194,14 +198,14 @@ void createOvernightParcel()
 	cout << endl << endl << "Thank you! Your ground parcel has been successfully created." << endl;
 }
 
-Contact handleContact() 
+Contact handleContact()
 {
 	// Declare an initialize the basic variables that will be required to run the loop and intake user choices
 	bool go = true;
 	int choice = 0;
 	string input = "";
 	Contact userChoice;
-	
+
 	// Loop to ensure operation is completed successfully
 	do {
 		// Show the user a list of options

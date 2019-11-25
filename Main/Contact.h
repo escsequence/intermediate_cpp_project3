@@ -24,6 +24,8 @@ typedef struct Contact {
   std::string addressState;
   std::string addressZip;
 
+  Contact(){}
+
   // Constructor
   Contact(std::string name, std::string street, std::string city,
     std::string state, std::string zip) {
