@@ -89,14 +89,14 @@ int main()
 	return -1;
 }
 
-std::string getInputFromuser(std::string msg) {
+string getInputFromuser(string msg) {
 	string tmp;
 	cout << msg;
 	getline(cin, tmp);
 	return tmp;
 }
 
-Contact getContactFromUser(std::string msg) {
+Contact getContactFromUser(string msg) {
 	cout << msg;
 	return handleContact();
 }
