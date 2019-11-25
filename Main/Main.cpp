@@ -118,19 +118,13 @@ void createGroundParcel()
 	Contact receiverAddress = getContactFromUser("Who is the recipient? ");
 
 	// Fee
-	cout << endl << "Shipping fee: $";
-	getline(cin, input);
-	double fee = stod(input);
+	double fee = stod(getInputFromuser("Shipping fee: $"));
 
 	// Weight
-	cout << endl << "Weight (in oz): ";
-	getline(cin, input);
-	double weight = stod(input);
+	double weight = stod(getInputFromuser("Weight (in oz): "));
 
 	// Cost per ounce
-	cout << endl << "Cost per oz: $";
-	getline(cin, input);
-	double costPerOz = stod(input);
+	double costPerOz = stod(getInputFromuser("Cost per oz: $"));
 
 	// Assemble a new ground parcel from the inputted information
 	GroundParcel g(parcelNumber, name, senderAddress, receiverAddress, fee, weight, costPerOz);
@@ -150,14 +144,10 @@ void createOvernightParcel()
 	cout << "Please input the requested information: " << endl;
 
 	// Parcel Number
-	cout << "Parcel Number: #";
-	getline(cin, input);
-	int parcelNumber = stoi(input);
+	int parcelNumber = stoi(getInputFromuser("Parcel Number: #"));
 
 	// Name of Parcel
-	cout << endl << "Name of Parcel: ";
-	string name;
-	getline(cin, name);
+	string name = getInputFromuser("Name of Parcel: ");
 
 	// Contact information for sender
 	Contact senderAddress = getContactFromUser("Who is the sender? ");
@@ -166,29 +156,19 @@ void createOvernightParcel()
 	Contact receiverAddress = getContactFromUser("Who is the recipient? ");
 
 	// Fee
-	cout << endl << "Shipping fee: $";
-	getline(cin, input);
-	double fee = stod(input);
+	double fee = stod(getInputFromuser("Shipping fee: $"));
 
 	// Weight
-	cout << endl << "Weight (in oz): ";
-	getline(cin, input);
-	double weight = stod(input);
+	double weight = stod(getInputFromuser("Weight (in oz): "));
 
 	// Cost per ounce
-	cout << endl << "Cost per oz: $";
-	getline(cin, input);
-	double costPerOz = stod(input);
+	double costPerOz = stod(getInputFromuser("Cost per oz: $"));
 
 	// Tracking number
-	cout << endl << "Tracking Number: #";
-	getline(cin, input);
-	int trackingNumber = stoi(input);
+	int trackingNumber = stoi(getInputFromuser("Tracking Number: #"));
 
 	// Standard weight
-	cout << endl << "Standard Weight (in oz): ";
-	getline(cin, input);
-	double standardWeight = stod(input);
+	double standardWeight = stod(getInputFromuser("Standard Weight (in oz): "));
 
 	// Assemble a new ground parcel from the inputted information
 	OvernightParcel o(parcelNumber, name, senderAddress, receiverAddress, fee, weight, costPerOz, trackingNumber, standardWeight);
