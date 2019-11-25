@@ -20,17 +20,17 @@
 
 using namespace std;
 
+// Create vectors to store the parcels the user makes
+vector<GroundParcel> ground;
+vector<OvernightParcel> overnight;
+vector<Contact> contacts;
+
 int main()
 {
 	// Declare an initialize the basic variables that will be required to run the loop and intake user choices
 	bool go = true;
 	int choice = 0;
 	string input = "";
-
-	// Create vectors to store the parcels the user makes
-	vector<GroundParcel> ground;
-	vector<OvernightParcel> overnight;
-	vector<Contact> contacts;
 
 	// Begin the program's main loop to construct parcels
 	do {
@@ -199,7 +199,18 @@ Contact handleContact()
 		switch (choice) {
 		case 1:
 		{
-			// Choose an existing conact
+			// Issue instructions to user
+			cout << "Enter the number that corresponds to the desired contact: " << endl;
+
+			// List all existing contacts
+			for (int i = 0; i < contacts.size; i++) 
+			{
+				cout << i << "). " << contacts[i].toString() << endl;
+			}
+
+			// Select the contact that the user chose
+			int choice = stoi(getInputFromuser(""));
+			userChoice = contacts[choice];
 			break;
 		}
 		case 2:
