@@ -35,5 +35,11 @@ typedef struct Contact {
       this->addressState = state;
       this->addressZip = zip;
   }
+
+
+  std::string toString() {
+    return "Contact " + name + "\nAddress (" + addressStreet + ", " + addressCity + " " + addressState + " " + addressZip + "\n";
+  }
+
 };
 #endif
