@@ -35,7 +35,7 @@ int main()
 	// Begin the program's main loop to construct parcels
 	do {
 		// Show the user a list of options
-		cout << "What would you like to do now? Enter the corresponding number:\n\t1). Create a new contact\n\t2).Create a ground parcel\n\t3). Create an overnight parcel\n\t4). Display parcel information and quit" << endl;
+		cout << "What would you like to do now? Enter the corresponding number:\n\t1). Create a new contact\n\t2). Create a ground parcel\n\t3). Create an overnight parcel\n\t4). Display parcel information and quit" << endl;
 
 		// Ask user to make their choice
 		getline(cin, input);
@@ -216,6 +216,7 @@ Contact handleContact()
 			// Select the contact that the user chose
 			int choice = stoi(getInputFromuser(""));
 			userChoice = contacts[choice];
+			go = false;
 			break;
 		}
 		case 2:
