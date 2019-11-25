@@ -63,7 +63,7 @@ int main()
 			{
 				// Set the variable to false to break the while loop
 				cout << "Thank you for using the parcel management program. Look below for details on your parcels:" << endl;
-				bool go = false;
+				go = false;
 				break;
 			}
 			default:
@@ -204,20 +204,28 @@ Contact handleContact()
 		switch (choice) {
 		case 1:
 		{
-			// Issue instructions to user
-			cout << "Enter the number that corresponds to the desired contact: " << endl;
-
-			// List all existing contacts
-			for (int i = 0; i < contacts.size(); i++) 
+			if (contacts.size() == 0) 
 			{
-				cout << i << "). " << contacts[i].toString() << endl;
+				cout << "Sorry, there aren't any existing contacts. You'll have to create a new one." << endl;
+				continue;
 			}
+			else 
+			{
+				// Issue instructions to user
+				cout << "Enter the number that corresponds to the desired contact: " << endl;
 
-			// Select the contact that the user chose
-			int choice = stoi(getInputFromuser(""));
-			userChoice = contacts[choice];
-			go = false;
-			break;
+				// List all existing contacts
+				for (int i = 0; i < contacts.size(); i++)
+				{
+					cout << i << "). " << contacts[i].toString() << endl;
+				}
+
+				// Select the contact that the user chose
+				int choice = stoi(getInputFromuser(""));
+				userChoice = contacts[choice];
+				go = false;
+				break;
+			}
 		}
 		case 2:
 		{
