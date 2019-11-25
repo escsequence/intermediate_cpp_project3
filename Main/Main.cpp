@@ -35,26 +35,31 @@ int main()
 	// Begin the program's main loop to construct parcels
 	do {
 		// Show the user a list of options
-		cout << "What would you like to do now? Enter the corresponding number:\n\t1). Create a ground parcel\n\t2). Create an overnight parcel\n\t3). Display parcel information and quit" << endl;
+		cout << "What would you like to do now? Enter the corresponding number:\n\t1). Create a new contact\n\t2).Create a ground parcel\n\t3). Create an overnight parcel\n\t4). Display parcel information and quit" << endl;
 
 		// Ask user to make their choice
 		getline(cin, input);
 		choice = stoi(input);
-
 		switch (choice) {
 			case 1:
+			{
+				// Call the method for handling contacts to allow the user to create a new one
+				handleContact();
+				break;
+			}
+			case 2:
 			{
 				// Call a special method to collect all the data the program needs to make a ground parcel
 				createGroundParcel();
 				break;
 			}
-			case 2:
+			case 3:
 			{
 				// Call a special method to collect all the data the program needs to make an overnight parcel
 				createOvernightParcel();
 				break;
 			}
-			case 3:
+			case 4:
 			{
 				// Set the variable to false to break the while loop
 				cout << "Thank you for using the parcel management program. Look below for details on your parcels:" << endl;
@@ -203,7 +208,7 @@ Contact handleContact()
 			cout << "Enter the number that corresponds to the desired contact: " << endl;
 
 			// List all existing contacts
-			for (int i = 0; i < contacts.size; i++) 
+			for (int i = 0; i < contacts.size(); i++) 
 			{
 				cout << i << "). " << contacts[i].toString() << endl;
 			}
