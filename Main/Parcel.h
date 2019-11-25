@@ -1,3 +1,14 @@
+/*
+* Parcel.h
+* Written by: James Johnston
+* Written for: COMPSCI 222 Project 3
+* Created on: 11/20/2019
+*/
+
+/*
+* Parcel class definition
+*/
+
 #ifndef PARCEL_H
 #define PARCEL_H
 #include "Contact.h"
