@@ -18,28 +18,24 @@ class OvernightParcel : public Parcel
 protected:
 	// The parcel's unique tracking number
 	int trackingNumber;
-	
-	// The maximum weight of a parcel before an extra cost per ounce is charged
-	double standardWeight;
+
 public:
 	// Constructors
 	OvernightParcel();
-	OvernightParcel(int number, std::string name, Contact* sender, Contact* receiver, double fee, double weight, double oz, int trackingNumber, double standardWeight);
+	OvernightParcel(int number, std::string name, double weight, Contact sender, Contact receiver, int trackingNumber);
 
 	// Destructor
 	~OvernightParcel();
 
 	//	Getters
 	int getTrackingNumber();
-	double getStandardWeight();
 
 	//	Setters
 	void setTrackingNumber(int i);
-	void setStandardWeight(double d);
 
 	//	Overrides
-	double calculateCost() override;
-	std::string toString() override;
+	double calculateCost();
+	std::string toString();
 };
 
 #endif

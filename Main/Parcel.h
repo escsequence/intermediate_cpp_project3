@@ -15,45 +15,37 @@
 
 class Parcel {
   protected:
-    // Parcel #
+    // Parcel information
     int parcelNumber;
-
-    // Name of parcel?
     std::string name;
+	  double weight;
 
     // Contact information
-    Contact *senderAddress;
-    Contact *receiverAddress;
+    Contact senderAddress;
+    Contact receiverAddress;
 
-    // Other attributes of the Parcel object
-    double fee;
-    double weight;
-    double costPerOz;
   public:
 
     // Constructors
     Parcel();
-    Parcel(int number, std::string name, Contact *sender, Contact *receiver,
-      double fee, double weight, double oz);
+    Parcel(int number, std::string name, double weight, Contact sender, Contact receiver);
 
     // Destructor
     ~Parcel();
 
     // Setters
     void setName(std::string);
-    void setSenderAddress(Contact*);
-    void setReceiverAddress(Contact*);
-    void setFee(double);
-    void setWeight(double);
-    void setCostPerOz(double);
+	  void setWeight(double);
+    void setSenderAddress(Contact);
+    void setReceiverAddress(Contact);
+    void setParcelNumber(int);
 
     // Getters
     std::string getName();
-    Contact *getSenderAddress();
-    Contact *getReceiverAddress();
-    double getFee();
     double getWeight();
-    double getCostPerOz();
+    Contact getSenderAddress();
+    Contact getReceiverAddress();
+    int getParcelNumber();
 
     virtual double calculateCost() = 0;
     virtual std::string toString() = 0;

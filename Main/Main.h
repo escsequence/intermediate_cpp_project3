@@ -13,11 +13,18 @@
 #define MAIN_H
 #include "Contact.h"
 
+static double BasicFee;
+static double StandardWeight;
+static double CostPerOunce;
+
 // This function asks the user for all the input needed to make a GroundParcel object
 void createGroundParcel();
 
 // This function asks the user for all the input needed to make an OvernightParcel object
 void createOvernightParcel();
+
+// The standard initalization of a base Parcel object
+void initParcel(Parcel &p);
 
 // Prompts the user for a contact and returns it
 Contact* getContactFromUser(std::string msg);
@@ -26,6 +33,16 @@ Contact* getContactFromUser(std::string msg);
 Contact* handleContact();
 
 // Prompts the user for a value and returns it
-std::string getInputFromuser(std::string msg);
+std::string getInputFromUser(std::string msg);
+
+// Setters
+void setFee(double fee);
+void setStandardWeight(double weight);
+void setCostPerOz(double oz);
+
+// Getters
+double getFee();
+double getStandardWeight();
+double getCostPerOz();
 
 #endif

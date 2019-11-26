@@ -18,8 +18,7 @@ class GroundParcel : public Parcel
 public:
 	// Constructors
 	GroundParcel();
-	GroundParcel(int number, std::string name, Contact* sender, Contact* receiver,
-		double fee, double weight, double oz);
+	GroundParcel(int number, std::string name, double weight, Contact sender, Contact receiver);
 
 	// Destructors
 	~GroundParcel();

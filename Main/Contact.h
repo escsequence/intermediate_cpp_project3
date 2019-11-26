@@ -6,14 +6,14 @@
 */
 
 /*
-* Struct for contacts
+* Struct for contacts, includes defintion and implementation
 */
 
 #ifndef CONTACT_H
 #define CONTACT_H
 #include <iostream>
 
-typedef struct Contact {
+struct Contact {
 
   // Name
   std::string name;
@@ -24,9 +24,10 @@ typedef struct Contact {
   std::string addressState;
   std::string addressZip;
 
+  // Base constructor
   Contact(){}
 
-  // Constructor
+  // Overloaded constructor
   Contact(std::string name, std::string street, std::string city,
     std::string state, std::string zip) {
       this->name = name;
@@ -36,10 +37,16 @@ typedef struct Contact {
       this->addressZip = zip;
   }
 
-
+  /**
+   * Returns a concatenated string of all of variable values.
+   * @return string,    concatenated value of all the values.
+   */
   std::string toString() {
     return name + "\n" + addressStreet + "\n" + addressCity + ", " + addressState + " " + addressZip + "\n";
   }
 
 };
+// A fix for Visual Studio
+typedef struct Contact Contact;
+
 #endif

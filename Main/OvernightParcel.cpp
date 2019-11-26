@@ -11,61 +11,82 @@
 
 #include "pch.h"
 #include "OvernightParcel.h"
+#include "Main.h"
 #include <string>
 
 using namespace std;
 
+/**
+ * Standard conatructor for OvernightParcel
+ */
 OvernightParcel::OvernightParcel() {}
+
+/**
+ * Destructor for OvernightParcel
+ */
 OvernightParcel::~OvernightParcel() {}
 
-OvernightParcel::OvernightParcel(int number, string name, Contact *sender, Contact *receiver, double fee, double weight, double oz, int trackingNumber, double standardWeight) :
-	Parcel(number, name, sender, receiver, fee, weight, oz)
+/**
+ * Overloaded Constructor for OvernightParcel
+ * @param int,      ParcelNumber
+ * @param string,   Name of Parcel
+ * @param double,   Weight of Parcel
+ * @param Contact,  Sender of Parcel
+ * @param Contact,  Receiever of Parcel
+ * @param int,			Tracking number
+ * @return Parcel, 	Returns a Parcel object
+ */
+OvernightParcel::OvernightParcel(int number, string name, double weight, Contact sender, Contact receiver, int trackingNumber) :
+	Parcel(number, name, weight, sender, receiver)
 {
 	this->trackingNumber = number;
-	this->standardWeight = standardWeight;
 }
 
-int OvernightParcel::getTrackingNumber() 
+/**
+ * Get the tracking number for the overnight object
+ * @return int,		Tracking number value
+ */
+int OvernightParcel::getTrackingNumber()
 {
 	return trackingNumber;
 }
 
-double OvernightParcel::getStandardWeight()
-{
-	return standardWeight;
-}
-
+/**
+ * Set the tracking number for the overnight object
+ * @param int,		New tracking number
+ */
 void OvernightParcel::setTrackingNumber(int trackingNumber)
 {
 	this->trackingNumber = trackingNumber;
 }
 
-void OvernightParcel::setStandardWeight(double standardWeight)
-{
-	this->standardWeight = standardWeight;
-}
-
-/* The cost is:
-	(a) Just the basic fee if the weight is below the standard weight 
-	(b) The basic fee plus additional charge if it is more than the standard weight.*/
+/**
+ * Calculates the cost for OvernightParcel
+ * The cost is:
+ *	(a) Just the basic fee if the weight is below the standard weight
+ *	(b) The basic fee plus additional charge if it is more than the standard weight.
+ * @return double,		Value of calculated cost
+ */
 double OvernightParcel::calculateCost()
 {
-	if (weight <= standardWeight)
-		return fee;
-	else 
+	if (weight <= getStandardWeight())
+		return getFee();
+	else
 	{
-		double extraWeight = weight - standardWeight;
-		return fee + extraWeight * costPerOz;
+		double extraWeight = weight - getStandardWeight();
+		return getFee() + extraWeight * getCostPerOz();
 	}
 }
 
-// Outputs all information about this parcel
+/**
+ * Outputs all information about this OvernightParcel
+ * @return string,		String value of concatenated values for this object.
+ */
 string OvernightParcel::toString()
-{	
-	string s = "Parcel " + name + " (" + to_string(parcelNumber) + "):\nWeight: " + to_string(weight) + "\nTracking Number: " + to_string(trackingNumber) + "\n\nFROM:\n" + senderAddress->name + "\n" +
-		senderAddress->addressStreet + "\n" + senderAddress->addressCity + ", " + senderAddress->addressState + " " + senderAddress->addressZip + "\n\nTO:\n" + receiverAddress->name + "\n" + receiverAddress->addressStreet
-		+ "\n" + receiverAddress->addressCity + ", " + receiverAddress->addressState + " " + receiverAddress->addressZip + "\nSent for $" + to_string(calculateCost()) + "($" + to_string(fee) + " and $" +
-		to_string(costPerOz) + " for each ounce over " + to_string(standardWeight) + " oz).";
+{
+	string s = name + " (#" + to_string(parcelNumber) + ")\nWeight: " + to_string(getWeight()) + " oz\nTracking Number: " + to_string(trackingNumber) + "\n\nFROM:\n" +
+		senderAddress.toString() + "\n\nTO:\n" + receiverAddress.toString() + "\nSent for $" + to_string(calculateCost()) + "($" + to_string(getFee()) + " basic fee and $" +
+		to_string(getCostPerOz()) + " for each ounce over " + to_string(getStandardWeight()) + " oz).\n\n";
 
 	return s;
 }
