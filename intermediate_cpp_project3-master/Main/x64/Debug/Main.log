@@ -1,3 +1,0 @@
-﻿  Main.cpp
-c:\users\ochan\source\repos\intermediate_cpp_project3-master\main\contact.h(44): warning C4091: 'typedef ': ignored on left of 'Contact' when no variable is declared
-  Main.vcxproj -> C:\Users\Ochan\source\repos\intermediate_cpp_project3-master\x64\Debug\Main.exe
