@@ -10,6 +10,7 @@ class ParcelIO {
     std::string contactFileName;
   public:
     ParcelIO(std::string, std::string, std::string);
+    int groundParcelCount(std::vector<Parcel*>);
     void write(std::vector<Parcel*> &vector, std::vector<Contact> contacts);
     std::vector<Parcel*> read();
 };
