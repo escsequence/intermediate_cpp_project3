@@ -65,22 +65,22 @@ Contact* getContactFromUser(string msg) {
  * Initalizes a generic Parcel object with values
  * @param Parcel,		Reference of a Parcel object
  */
-void initParcel(Parcel &p) {
+void initParcel(Parcel *p) {
 
 	// Parcel Number
-	p.setParcelNumber(stoi(getInputFromUser("Parcel Number: #")));
+	p->setParcelNumber(stoi(getInputFromUser("Parcel Number: #")));
 
 	// Name of Parcel
-	p.setName(getInputFromUser("Name of Parcel: "));
+	p->setName(getInputFromUser("Name of Parcel: "));
 
 	// Contact information for sender
-	p.setSenderAddress(*getContactFromUser("Who is the sender? "));
+	p->setSenderAddress(*getContactFromUser("Who is the sender? "));
 
 	// Contact information for recipient
-	p.setReceiverAddress(*getContactFromUser("Who is the recipient? "));
+	p->setReceiverAddress(*getContactFromUser("Who is the recipient? "));
 
 	// Weight
-	p.setWeight(stod(getInputFromUser("Weight (in oz): ")));
+	p->setWeight(stod(getInputFromUser("Weight (in oz): ")));
 
 }
 
@@ -93,7 +93,7 @@ void initParcel(Parcel &p) {
 void createGroundParcel() {
 
 	// Create a parcel object
-	GroundParcel gp;
+	GroundParcel* gp = new GroundParcel();
 
 	// Collect information
 	cout << "Please input the requested information: " << endl;
@@ -102,7 +102,7 @@ void createGroundParcel() {
 	initParcel(gp);
 
 	// Push the ground parcel to the vector
-	parcels.push_back(&gp);
+	parcels.push_back(gp);
 
 	// Confirm completed adding the parcel
 	cout << endl << endl << "Thank you! Your ground parcel has been successfully created." << endl;
@@ -117,7 +117,7 @@ void createGroundParcel() {
 void createOvernightParcel() {
 
 	// Create a parcel object
-	OvernightParcel np;
+	OvernightParcel* np = new OvernightParcel();
 
 	// Collect information
 	cout << "Please input the requested information: " << endl;
@@ -126,10 +126,10 @@ void createOvernightParcel() {
 	initParcel(np);
 
 	// Tracking number
-	np.setTrackingNumber(stoi(getInputFromUser("Tracking number of this parcel: #")));
+	np->setTrackingNumber(stoi(getInputFromUser("Tracking number of this parcel: #")));
 
 	// Push the ground parcel to the vector
-	parcels.push_back(&np);
+	parcels.push_back(np);
 
 	// Confirm completed adding the parcel
 	cout << endl << endl << "Thank you! Your overnight parcel has been successfully created, and it is now IN TRANSITION." << endl;
@@ -323,7 +323,8 @@ void primaryMenu() {
 	default:
 	{
 		cout << "Thank you for using the parcel management program. Look below for details on your parcels:" << endl << endl;
-		go = false; break;
+		go = false;
+		break;
 	}
 	}
 }
