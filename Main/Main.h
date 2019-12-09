@@ -17,8 +17,10 @@
 // Variables used to run the loops and switches
 static bool go = true;
 static int choice = 0;
+static int ContactsSize = 0;
 
 // Variables used to create parcels
+static bool creation = false;
 static double BasicFee;
 static double StandardWeight;
 static double CostPerOunce;
@@ -32,6 +34,12 @@ void createGroundParcel();
 
 // This function asks the user for all the input needed to make an OvernightParcel object
 void createOvernightParcel();
+
+//Keeps prompting the user for input until they return something valid
+int validateInputI(std::string instructions);
+
+//Keeps prompting the user for input until they return something valid
+double validateInputD(std::string instructions);
 
 // The standard initalization of a base Parcel object
 void initParcel(Parcel &p);
@@ -47,6 +55,9 @@ Contact* getContactFromUser(std::string msg);
 
 // This function allows the user to select a pre-existing Contact... or create a new one
 Contact* handleContact();
+
+// Creates a new Contact with user input
+Contact MakeNewContact();
 
 // Prompts the user for a value and returns it
 std::string getInputFromUser(std::string msg);

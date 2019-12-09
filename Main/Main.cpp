@@ -34,9 +34,9 @@ vector<Contact> contacts;
  * Initializes the static variables that are shared between all parcels.
  */
 void initializeStatic() {
-	BasicFee = stod(getInputFromUser("Please enter the basic shipping fee for all parcels: $"));
-	StandardWeight = stod(getInputFromUser("Please enter the maximum weight (in oz) before extra charge (standard weight) for all overnight parcels: "));
-	CostPerOunce = stod(getInputFromUser("Please enter the cost per ounce for all parcels: $"));
+	BasicFee = validateInputD("Please enter the basic shipping fee for all parcels: $");
+	StandardWeight = validateInputD("Please enter the maximum weight (in oz) before extra charge (standard weight) for all overnight parcels: ");
+	CostPerOunce = validateInputD("Please enter the cost per ounce for all parcels: $");
 }
 
 /**
@@ -68,7 +68,7 @@ Contact* getContactFromUser(string msg) {
 void initParcel(Parcel *p) {
 
 	// Parcel Number
-	p->setParcelNumber(stoi(getInputFromUser("Parcel Number: #")));
+	p->setParcelNumber(validateInputI("Parcel Number: #"));
 
 	// Name of Parcel
 	p->setName(getInputFromUser("Name of Parcel: "));
@@ -80,7 +80,7 @@ void initParcel(Parcel *p) {
 	p->setReceiverAddress(*getContactFromUser("Who is the recipient? "));
 
 	// Weight
-	p->setWeight(stod(getInputFromUser("Weight (in oz): ")));
+	p->setWeight(validateInputD("Weight (in oz): "));
 
 }
 
@@ -93,6 +93,7 @@ void initParcel(Parcel *p) {
 void createGroundParcel() {
 
 	// Create a parcel object
+	creation = true;
 	GroundParcel* gp = new GroundParcel();
 
 	// Collect information
@@ -106,6 +107,7 @@ void createGroundParcel() {
 
 	// Confirm completed adding the parcel
 	cout << endl << endl << "Thank you! Your ground parcel has been successfully created." << endl;
+	creation = false;
 }
 
 /**
@@ -117,6 +119,7 @@ void createGroundParcel() {
 void createOvernightParcel() {
 
 	// Create a parcel object
+	creation = true;
 	OvernightParcel* np = new OvernightParcel();
 
 	// Collect information
@@ -126,13 +129,14 @@ void createOvernightParcel() {
 	initParcel(np);
 
 	// Tracking number
-	np->setTrackingNumber(stoi(getInputFromUser("Tracking number of this parcel: #")));
+	np->setTrackingNumber(validateInputI("Tracking number of this parcel: #"));
 
 	// Push the ground parcel to the vector
 	parcels.push_back(np);
 
 	// Confirm completed adding the parcel
 	cout << endl << endl << "Thank you! Your overnight parcel has been successfully created, and it is now IN TRANSITION." << endl;
+	creation = false;
 }
 
 /**
@@ -146,23 +150,20 @@ Contact* handleContact()
 	Contact dummy;
 	Contact *userChoice = &dummy;
 
-	// Loop to ensure operation is completed successfully
-	do {
-		// Show the user a list of options
-		cout << "What would you like to do now? Enter the corresponding number:\n\t1). View existing contacts\n\t2). Create a new contact" << endl;
+	// Ask user to make their choice
+	if(creation)
+		choice = validateInputI("\n_____________________________________________\nWhat would you like to do now? Enter the corresponding number:\n1 - View existing contacts\n2 - Create a new contact\n_____________________________________________\n");
+	else
+		choice = validateInputI("\n_____________________________________________\nWhat would you like to do now? Enter the corresponding number:\n1 - View existing contacts\n2 - Create a new contact\nOther Numbers - Back\n_____________________________________________\n");
 
-		// Ask user to make their choice
-		getline(cin, input);
-		choice = stoi(input);
-
-		// Evaluate choice
-		switch (choice) {
+	// Evaluate choice
+	switch (choice) {
 		case 1:
 		{
 			if (contacts.size() == 0)
 			{
+				// Inform the user that there are no existing contacts
 				cout << "Sorry, there aren't any existing contacts. You'll have to create a new one." << endl;
-				continue;
 			}
 			else
 			{
@@ -176,57 +177,72 @@ Contact* handleContact()
 				}
 
 				// Select the contact that the user chose
-				int choice = stoi(getInputFromUser(""));
-				userChoice = &contacts[choice];
-				go = false;
+				int choice = validateInputI(getInputFromUser(""));
+				if (choice < ContactsSize)
+					userChoice = &contacts[choice];
+				else
+					if (creation) {
+						cout << "Index error! There is no contact stored here. The first contact has been loaded instead." << endl;
+						userChoice = &contacts[0];
+					}
+					else
+						cout << "There is no contact at this index." << endl;
 				break;
 			}
 		}
 		case 2:
 		{
-			// Collect information
-			cout << "Please input the requested information: " << endl;
-
-			// Name of Contact
-			string name = getInputFromUser("Name of Contact: ");
-
-			// Street Address of Contact
-			string addressStreet = getInputFromUser("Street Address: ");
-
-			// City of Contact
-			string addressCity = getInputFromUser("City: ");
-
-			// State of Contact
-			string addressState = getInputFromUser("State: ");
-
-			// Zip code of Contact
-			string addressZip = getInputFromUser("Zip: ");;
-
-			// Create a contact with the given information
-			Contact c(name, addressStreet, addressCity, addressState, addressZip);
-
-			// Add the contact to list of created contacts
-			contacts.push_back(c);
+			contacts.push_back(MakeNewContact());
 			userChoice = &contacts.back();
-
-			// Break loop
-			go = false;
+			ContactsSize++;
 			break;
 		}
 		default:
 		{
-			// Inform the user that their input is invalid
-			cout << "Sorry, that's not a valid choice. Please try again." << endl;
-			break;
+			// Send the user back to the main menu
+			if (!creation)
+				break;
+			else {
+				contacts.push_back(MakeNewContact());
+				userChoice = &contacts.back();
+				ContactsSize++;
+			}
+				
 		}
-		}
-	} while (go == true);
-
-	// Reset go for the main loop
-	go = true;
+	}
 
 	// Return the newly created contact or the contact selected by the user.
 	return userChoice;
+}
+
+/**
+ * Creates a new Contact with user input
+ * @return Contact,  The new contact that was made
+ */
+Contact MakeNewContact() {
+	// Collect information
+	cout << "Please input the requested information: " << endl;
+
+	// Name of Contact
+	string name = getInputFromUser("Name of Contact: ");
+
+	// Street Address of Contact
+	string addressStreet = getInputFromUser("Street Address: ");
+
+	// City of Contact
+	string addressCity = getInputFromUser("City: ");
+
+	// State of Contact
+	string addressState = getInputFromUser("State: ");
+
+	// Zip code of Contact
+	string addressZip = getInputFromUser("Zip: ");;
+
+	// Create a contact with the given information
+	Contact c(name, addressStreet, addressCity, addressState, addressZip);
+
+	// Add the contact to list of created contacts
+	return c;
 }
 
 /**
@@ -283,12 +299,10 @@ double getCostPerOz() {
 void secondaryMenu() {
 	string input;
 
-	// Show the user a list of options
-	cout << "\n_____________________________________________\nPlease select parcel type:\n1 - Ground parcel\n2 - Overnight parcel\nOther - Return to main menu\n_____________________________________________" << endl;
-
 	// Ask user to make their choice
-	getline(cin, input);
-	choice = stoi(input);
+	choice = validateInputI("\n_____________________________________________\nPlease select parcel type:\n1 - Ground parcel\n2 - Overnight parcel\nOther Numbers - Return to main menu\n_____________________________________________\n");
+
+	// Examine the user's choice
 	switch (choice) {
 	case 1:
 		createGroundParcel(); break;
@@ -305,12 +319,10 @@ void secondaryMenu() {
 void primaryMenu() {
 	string input;
 
-	// Show the user a list of options
-	cout << "\n_____________________________________________\nEnter your service selection:\n0 - Make a new contact.\n1 - Process a parcel request.\n2 - Update the status of an overnight parcel.\n3 - Track the status of an overnight parcel.\nOther - Print parcel info and exit this program.\n_____________________________________________" << endl;
-
 	// Ask user to make their choice
-	getline(cin, input);
-	choice = stoi(input);
+	choice = validateInputI("\n_____________________________________________\nEnter your service selection:\n0 - Manage contacts.\n1 - Process a parcel request.\n2 - Update the status of an overnight parcel.\n3 - Track the status of an overnight parcel.\nOther Numbers - Print parcel info and exit this program.\n_____________________________________________\n");
+
+	// Examine the user's choice
 	switch (choice) {
 	case 0:
 		handleContact(); break;
@@ -334,7 +346,7 @@ void primaryMenu() {
  */
 int trackStatus() {
 	// Have the user input the tracking number of the desired parcel
-	int choice = stoi(getInputFromUser("Please enter the tracking number of an Overnight Parcel: #"));
+	int choice = validateInputI(getInputFromUser("Please enter the tracking number of an Overnight Parcel: #"));
 
 	// Check the array for parcels with the same tracking number
 	for (int i = 0; i < parcels.size(); i++) {
@@ -361,7 +373,7 @@ int trackStatus() {
 void updateStatus() {
 	if (trackStatus() == 1) {
 		// Have the user input the tracking number of the desired parcel
-		int choice = stoi(getInputFromUser("Please select a new status for this parcel:\n1 - In Transition\n2 - Delivered\nOthers - Return to Menu"));
+		int choice = validateInputI(getInputFromUser("Please select a new status for this parcel:\n1 - In Transition\n2 - Delivered\nOther Numbers - Return to Menu"));
 		switch (choice) {
 			case 1: {
 				Target->setStatus(InTransition);
@@ -388,6 +400,50 @@ void printAllParcels() {
 	// Print out information on all the parcels the user created
 	for (int i = 0; i < parcels.size(); i++)
 		cout << setprecision(2) << "Parcel #" << i + 1 << ":\n" << parcels[i]->toString() << endl;
+}
+
+/**
+ * Keeps prompting the user for input until they return something valid
+ * @param string,		Tells the user what value the program is looking for
+ * @return int,			Valid integer input
+ */
+int validateInputI(string instructions) {
+	bool ok = false;
+	int input = -1;
+	do {
+		try {
+			input = stoi(getInputFromUser(instructions));
+			if (input < 0)
+				throw "Negative number";
+			ok = true;
+		}
+		catch (...) {
+			cout << "This value must be a positive number or zero. Please try again." << endl << endl;
+		}
+	} while (!ok);
+	return input;
+}
+
+/**
+ * Keeps prompting the user for input until they return something valid
+ * @param string,		Tells the user what value the program is looking for
+ * @return double,		Valid double input
+ */
+double validateInputD(string instructions) {
+	bool ok = false;
+	double input = -1;
+	do {
+		try {
+			input = stod(getInputFromUser(instructions));
+			if (input < 0)
+				throw "Negative number";
+			ok = true;
+		}
+		catch (...) {
+			cout << "This value must be a positive number or zero. Please try again." << endl << endl;
+		}
+	} while (!ok);
+	return input;
 }
 
 /**
