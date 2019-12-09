@@ -350,12 +350,12 @@ int trackStatus() {
 
 	// Check the array for parcels with the same tracking number
 	for (int i = 0; i < parcels.size(); i++) {
-		if (/*parcels[i].trackingNumber*/1 == choice) {
+		if (parcels[i].trackingNumber == choice) {
 			// Print out the information for the first parcel that has a matching tracking number
 			cout << parcels[i]->toString() << endl;
 
 			// Target the parcel in case it needs to be updated
-			//Target = &parcels[i];
+			Target = &parcels[i];
 
 			// Return a variable to tell updateStatus() whether or not there's something to update. When trackStatus() is called directly, it's just a dummy.
 			return 1;
