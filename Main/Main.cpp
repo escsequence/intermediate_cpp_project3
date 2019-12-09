@@ -27,7 +27,7 @@
 using namespace std;
 
 // Create vectors to store the parcels and contacts the user makes
-vector<Parcel> parcels;
+vector<Parcel*> parcels;
 vector<Contact> contacts;
 
 /**
@@ -102,7 +102,7 @@ void createGroundParcel() {
 	initParcel(gp);
 
 	// Push the ground parcel to the vector
-	parcels.push_back(gp);
+	parcels.push_back(&gp);
 
 	// Confirm completed adding the parcel
 	cout << endl << endl << "Thank you! Your ground parcel has been successfully created." << endl;
@@ -129,7 +129,7 @@ void createOvernightParcel() {
 	np.setTrackingNumber(stoi(getInputFromUser("Tracking number of this parcel: #")));
 
 	// Push the ground parcel to the vector
-	parcels.push_back(np);
+	parcels.push_back(&np);
 
 	// Confirm completed adding the parcel
 	cout << endl << endl << "Thank you! Your overnight parcel has been successfully created, and it is now IN TRANSITION." << endl;
@@ -295,7 +295,7 @@ void secondaryMenu() {
 	case 2:
 		createOvernightParcel(); break;
 	default:
-		break; // Write all new parcels to external file 
+		break; // Write all new parcels to external file
 	}
 }
 
@@ -339,7 +339,7 @@ int trackStatus() {
 	for (int i = 0; i < parcels.size(); i++) {
 		if (/*parcels[i].trackingNumber*/1 == choice) {
 			// Print out the information for the first parcel that has a matching tracking number
-			cout << parcels[i].toString() << endl;
+			cout << parcels[i]->toString() << endl;
 
 			// Target the parcel in case it needs to be updated
 			//Target = &parcels[i];
@@ -374,7 +374,7 @@ void updateStatus() {
 				cout << "Returning to menu...." << endl << endl;
 			}
 		}
-	}	
+	}
 }
 
 /**
@@ -386,7 +386,7 @@ void printAllParcels() {
 
 	// Print out information on all the parcels the user created
 	for (int i = 0; i < parcels.size(); i++)
-		cout << setprecision(2) << "Parcel #" << i + 1 << ":\n" << parcels[i].toString() << endl;
+		cout << setprecision(2) << "Parcel #" << i + 1 << ":\n" << parcels[i]->toString() << endl;
 }
 
 /**
