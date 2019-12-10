@@ -48,7 +48,7 @@ class Parcel {
     int getParcelNumber();
 
     virtual double calculateCost() = 0;
-    virtual std::string toString() = 0;
+    virtual void toString() = 0;
 };
 
 #endif

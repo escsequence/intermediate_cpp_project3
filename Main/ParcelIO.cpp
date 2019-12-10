@@ -1,7 +1,15 @@
+/*
+* ParcelIO.cpp
+* Written by: James Johnston
+* Written for: COMPSCI 222 Project 3 Part 2
+* Created on: 12/10/2019
+*/
+
 #include "ParcelIO.h"
 #include "GroundParcel.h"
 #include "OvernightParcel.h"
 #include "Contact.h"
+#include <typeinfo>
 #include <fstream>
 
 // Constructor
@@ -11,78 +19,176 @@ ParcelIO::ParcelIO (std::string groundFile, std::string overnightFile, std::stri
   contactFileName = contactFile;
 }
 
+ParcelIO::ParcelIO() {
+  // Do nothing
+}
 
-// Writes to file
-void ParcelIO::write(std::vector<Parcel*> &vector, std::vector<Contact> contacts) {
+void ParcelIO::setFileLocation(std::string groundFile, std::string overnightFile, std::string contactFile) {
+  groundParcelFileName = groundFile;
+  overnightParcelFileName = overnightFile;
+  contactFileName = contactFile;
+}
 
-  // Create streams for ground and overnight
-  std::ofstream gpFile(groundParcelFileName, std::ios::binary | std::ios::out),
-                opFile(overnightParcelFileName, std::ios::binary | std::ios::out),
-                coFile(contactFileName, std::ios::binary | std::ios::out);
-  // First write out the contacts
+// This function writes both contacts and parcels
+void ParcelIO::write(std::vector<Parcel*> &vector, std::vector<Contact> &contacts) {
+  writeContacts(contacts);
+  writeParcels(vector);
+}
+
+void ParcelIO::writeContacts(std::vector<Contact> &contacts) {
+
+  // Create the stream for the contacts
+  std::ofstream coFile(contactFileName, std::ios::binary | std::ios::out);
+
   // Initally writes the size of the contacts
   unsigned int size = contacts.size();
-  coFile.write(reinterpret_cast<const char*> (&size), sizeof(int));
-  std::cout << "Writing out " << contacts.size() << " contacts" << std::endl;
-  // Loop through contacts
-  // for (Contact c : contacts) {
-  //   coFile.write(reinterpret_cast<char*> (&c), sizeof(Contact));
-  // }
+  // Write it as a "header"
+  coFile.write(reinterpret_cast<const char*> (&size), sizeof(size));
 
+  // Loop through contacts and write them now
+  for (int index = 0; index < contacts.size(); ++index) {
+    coFile.write(reinterpret_cast<char*> (&contacts[index]), sizeof(Contact));
+  }
+
+  // Close contact file
   coFile.close();
+}
 
-  // // Loop through parcel items
-  // gpFile.write(reinterpret_cast<char*> (groundParcelCount(vector)), sizeof(int));
-  // opFile.write(reinterpret_cast<char*> (vector.size() - groundParcelCount(vector)), sizeof(int));
-  //
-  // for (Parcel* p : vector) {
-  //   if (dynamic_cast<GroundParcel*>(p)) { // Parcel is GroundParcel
-  //     gpFile.write(reinterpret_cast<char*> (p), sizeof(GroundParcel));
-  //   } else { // Otherwise it is Overnight
-  //     opFile.write(reinterpret_cast<char*> (p), sizeof(OvernightParcel));
-  //   }
-  // }
-  //
-  // // Close the files
-  // gpFile.close();
+// Writes to file
+void ParcelIO::writeParcels(std::vector<Parcel*> &vector) {
+  // Create streams for ground and overnight
+  std::ofstream gpFile(groundParcelFileName, std::ios::binary | std::ios::out),
+                opFile(overnightParcelFileName, std::ios::binary | std::ios::out);
+
+  // We need to get the size of the counts to put in the file header
+  unsigned int gpCount = groundParcelCount(vector);
+  unsigned int opCount = vector.size() - gpCount;
+
+  std::cout << "Vector size: " << vector.size() << std::endl;
+
+  // Write the "header" values
+  gpFile.write(reinterpret_cast<char*> (&gpCount), sizeof(gpCount));
+  opFile.write(reinterpret_cast<char*> (&opCount), sizeof(opCount));
+
+
+  for (int index = 0; index < vector.size(); ++index) {
+    //Parcel *parcel = vector[index];
+    if (isGroundParcel(vector[index])) { // Parcel is GroundParcel
+      GroundParcel* gp = dynamic_cast<GroundParcel*>(vector[index]);
+      gpFile.write(reinterpret_cast<char*> (gp), sizeof(*gp));
+    } else { // Otherwise it is Overnight
+      OvernightParcel* op = dynamic_cast<OvernightParcel*>(vector[index]);
+      opFile.write(reinterpret_cast<char*> (op), sizeof(*op));
+    }
+  }
+
+  // Close the files
+  gpFile.close();
   opFile.close();
 }
 
-int ParcelIO::groundParcelCount(std::vector<Parcel*> v) {
-  int val;
-  for (int index = 0; index < v.size(); ++index)
-    if (dynamic_cast<GroundParcel*>(v[index]))
-      val++;
-  return val;
+bool ParcelIO::isGroundParcel(Parcel *p) {
+  std::cout << "Comapring (" << typeid(*p).name() << ") to (" << typeid(GroundParcel).name() << ")" << std::endl;
+  return (typeid(*p).name() == typeid(GroundParcel).name());
+  //return true;
 }
 
-// Reads file
-std::vector<Parcel*> ParcelIO::read() {
-  std::vector<Parcel*> parcels;
-  std::ifstream gpFile, opFile, coFile;
+int ParcelIO::groundParcelCount(std::vector<Parcel*> &vector) {
+  unsigned int sizeOfGp = 0;
+  std::cout << "Looks like there are " << vector.size() << " parcels?" << std::endl;
+  for (int index = 0; index < vector.size(); ++index) {
+    if (isGroundParcel(vector[index]))
+      sizeOfGp++;
+  }
+  return sizeOfGp;
+}
 
-  unsigned int contactSize = 0;
-  unsigned int groundParcelSize = 0;
+std::vector<OvernightParcel> ParcelIO::readOvernightParcels() {
+  std::vector<OvernightParcel> parcels;
+  std::ifstream opFile;
   unsigned int overnightParcelSize = 0;
 
-  // Reading the contacts
+  opFile.open(overnightParcelFileName, std::ios::binary | std::ios::in);
+  opFile.read(reinterpret_cast<char*> (&overnightParcelSize), sizeof(overnightParcelSize));
+  for (int opIndex = 0; opIndex < overnightParcelSize; ++opIndex) {
+    OvernightParcel tempParcel;
+    opFile.read(reinterpret_cast<char*> (&tempParcel), sizeof(tempParcel));
+    parcels.push_back(tempParcel);
+  }
+  opFile.close();
+  //std::cout << "Overnight Parcel size: " << overnightParcelSize << std::endl;
+  return parcels;
+}
+
+
+std::vector<GroundParcel> ParcelIO::readGroundParcels() {
+  std::vector<GroundParcel> parcels;
+  std::ifstream gpFile;
+  unsigned int groundParcelSize = 0;
+
+  gpFile.open(groundParcelFileName, std::ios::binary | std::ios::in);
+  gpFile.read(reinterpret_cast<char*> (&groundParcelSize), sizeof(groundParcelSize));
+  for (int gpIndex = 0; gpIndex < groundParcelSize; ++gpIndex) {
+    GroundParcel tempParcel;
+    gpFile.read(reinterpret_cast<char*> (&tempParcel), sizeof(tempParcel));
+    parcels.push_back(tempParcel);
+  }
+  gpFile.close();
+  //std::cout << "Ground Parcel size: " << groundParcelSize << std::endl;
+  return parcels;
+}
+
+
+std::vector<Contact> ParcelIO::readContacts() {
+  std::vector<Contact> contacts;
+  unsigned int contactSize = 0;
+  std::ifstream coFile;
+
   coFile.open(contactFileName, std::ios::binary | std::ios::in);
   coFile.read(reinterpret_cast<char*> (&contactSize), sizeof(int));
+  for (int index = 0; index < contactSize; ++index) {
+    Contact tempContact;
+    coFile.read(reinterpret_cast<char*> (&tempContact), sizeof(Contact));
+    contacts.push_back(tempContact);
+  }
   coFile.close();
-  std::cout << "Contact size: " << contactSize << std::endl;
+  //std::cout << "Contact size: " << contactSize << std::endl;
+  return contacts;
+}
 
-  // Reading the ground parcels
-  gpFile.open(groundParcelFileName, std::ios::binary | std::ios::in);
-  gpFile.read(reinterpret_cast<char*> (&groundParcelSize), sizeof(int));
-  gpFile.close();
-  std::cout << "Ground Parcel size: " << groundParcelSize << std::endl;
+// Reads the configuration file
+std::vector<double> ParcelIO::readConfig() {
 
-  // Reading the overnight parcels
-  opFile.open(overnightParcelFileName, std::ios::binary | std::ios::in);
-  opFile.read(reinterpret_cast<char*> (&overnightParcelSize), sizeof(int));
-  opFile.close();
-  std::cout << "Overnight Parcel size: " << overnightParcelSize << std::endl;
+  int hasBeenModified = 0;
+  double basicFee, standardWeight, costPerOz;
 
-  return parcels;
+  std::vector<double> config;
+  std::ifstream configFile;
+  configFile.open(configFileName, std::ios::binary | std::ios::in);
 
+  configFile.read(reinterpret_cast<char*> (&hasBeenModified), sizeof(hasBeenModified));
+  if (hasBeenModified) {
+    configFile.read(reinterpret_cast<char*> (&basicFee), sizeof(basicFee));
+    config.push_back(basicFee);
+    configFile.read(reinterpret_cast<char*> (&standardWeight), sizeof(standardWeight));
+    config.push_back(standardWeight);
+    configFile.read(reinterpret_cast<char*> (&costPerOz), sizeof(costPerOz));
+    config.push_back(costPerOz);
+  }
+  configFile.close();
+  return config;
+}
+
+void ParcelIO::writeConfig(double basicFee, double standardWeight, double costPerOz) {
+  std::ofstream configFile(configFileName, std::ios::binary | std::ios::out);
+  int modified = 1;
+  configFile.write(reinterpret_cast<char*> (&modified), sizeof(modified));
+  configFile.write(reinterpret_cast<char*> (&basicFee), sizeof(basicFee));
+  configFile.write(reinterpret_cast<char*> (&standardWeight), sizeof(standardWeight));
+  configFile.write(reinterpret_cast<char*> (&costPerOz), sizeof(costPerOz));
+  configFile.close();
+}
+
+void ParcelIO::setConfigFile(std::string file) {
+  configFileName = file;
 }

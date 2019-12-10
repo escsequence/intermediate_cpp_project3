@@ -25,7 +25,7 @@ public:
 
 	//	Overrides
 	double calculateCost();
-	std::string toString();
+	void toString();
 };
 
 #endif
