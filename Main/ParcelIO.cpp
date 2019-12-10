@@ -64,8 +64,6 @@ void ParcelIO::writeParcels(std::vector<Parcel*> &vector) {
   unsigned int gpCount = groundParcelCount(vector);
   unsigned int opCount = vector.size() - gpCount;
 
-  std::cout << "Vector size: " << vector.size() << std::endl;
-
   // Write the "header" values
   gpFile.write(reinterpret_cast<char*> (&gpCount), sizeof(gpCount));
   opFile.write(reinterpret_cast<char*> (&opCount), sizeof(opCount));
@@ -88,14 +86,11 @@ void ParcelIO::writeParcels(std::vector<Parcel*> &vector) {
 }
 
 bool ParcelIO::isGroundParcel(Parcel *p) {
-  std::cout << "Comapring (" << typeid(*p).name() << ") to (" << typeid(GroundParcel).name() << ")" << std::endl;
   return (typeid(*p).name() == typeid(GroundParcel).name());
-  //return true;
 }
 
 int ParcelIO::groundParcelCount(std::vector<Parcel*> &vector) {
   unsigned int sizeOfGp = 0;
-  std::cout << "Looks like there are " << vector.size() << " parcels?" << std::endl;
   for (int index = 0; index < vector.size(); ++index) {
     if (isGroundParcel(vector[index]))
       sizeOfGp++;
