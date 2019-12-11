@@ -11,12 +11,19 @@
 #include "Parcel.h"
 #include "GroundParcel.h"
 #include "OvernightParcel.h"
+#include "VectorIO.h"
+
 class ParcelIO {
   private:
     std::string groundParcelFileName;
     std::string overnightParcelFileName;
     std::string contactFileName;
     std::string configFileName;
+
+    VectorIO<GroundParcel>    groundParcelFile;
+    VectorIO<OvernightParcel> overnightParcelFile;
+    VectorIO<Contact>         contactFile;
+    VectorIO<double>          configFile;
   public:
     // Constructors
     ParcelIO();
