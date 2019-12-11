@@ -407,7 +407,7 @@ int trackStatus() {
 			// Compare the tracking number to the target
 			if (Target->getTrackingNumber() == choice) {
 				// Print out the information for the first parcel that has a matching tracking number
-				parcels[i]->toString();
+				Target->toString();
 
 				// Return a variable to tell updateStatus() whether or not there's something to update. When trackStatus() is called directly, it's just a dummy.
 				return 1;

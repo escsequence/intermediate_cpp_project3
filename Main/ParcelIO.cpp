@@ -30,7 +30,7 @@ void ParcelIO::setFileLocation(std::string groundFile, std::string overnightFile
   contactFileName = contactFile;
   groundParcelFile = new VectorIO<GroundParcel>(groundFile);
   overnightParcelFile = new VectorIO<OvernightParcel>(overnightFile);
-  contactFile = new VectorIO<OvernightParcel>(contactFile);
+  //contactFile = new VectorIO<OvernightParcel>(contactFile);
 }
 
 // This function writes both contacts and parcels
