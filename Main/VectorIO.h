@@ -20,17 +20,9 @@ private:
   bool isOpen;
 
   // Header private functions
-  void writeHeader(unsigned int sizeOfVector) {
-    if (isOpen)
-      writeStream.write(reinterpret_cast<char*> (&sizeOfVector), sizeof(sizeOfVector));
-  }
+  void writeHeader(unsigned int sizeOfVector);
 
-  unsigned int readHeader() {
-    unsigned int sizeOfVector = 0;
-    if (isOpen)
-      readStream.read(reinterpret_cast<char*> (&sizeOfVector), sizeof(sizeOfVector));
-    return sizeOfVector;
-  }
+  unsigned int readHeader();
 
   void openRead();
 
@@ -52,11 +44,6 @@ public:
   VectorIO(std::string file) {
     this->file = file;
     this->isOpen = false;
-  }
-
-  ~VectorIO() {
-    // close stream if still open
-    this->close();
   }
 
   // Read the vector values from file

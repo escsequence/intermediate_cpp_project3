@@ -63,3 +63,9 @@ unsigned int VectorIO<T>::readHeader() {
     readStream.read(reinterpret_cast<char*> (&sizeOfVector), sizeof(sizeOfVector));
   return sizeOfVector;
 }
+
+template<class T>
+void VectorIO<T>::writeHeader(unsigned int sizeOfVector) {
+  if (isOpen)
+    writeStream.write(reinterpret_cast<char*> (&sizeOfVector), sizeof(sizeOfVector));
+}
