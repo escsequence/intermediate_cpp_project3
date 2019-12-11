@@ -1,5 +1,6 @@
 #ifndef VECTOR_IO_H
 #define VECTOR_IO_H
+#include "pch.h"
 #include <iostream>
 #include <vector>
 #include <fstream>
