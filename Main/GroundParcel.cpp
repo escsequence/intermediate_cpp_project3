@@ -38,6 +38,7 @@ GroundParcel::~GroundParcel(){}
  */
 GroundParcel::GroundParcel(int number, std::string name, double weight, Contact sender, Contact receiver)
 	: Parcel(number, name, weight, sender, receiver) {
+	this->type = Ground;
 }
 
 /**
