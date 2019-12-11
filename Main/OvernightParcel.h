@@ -28,7 +28,7 @@ public:
 	// Constructors
 	OvernightParcel();
 	OvernightParcel(int number, std::string name, double weight, Contact sender, Contact receiver, int trackingNumber);
-
+	// OvernightParcel(OvernightParcel&);
 	// Destructor
 	~OvernightParcel();
 
@@ -42,7 +42,7 @@ public:
 
 	//	Overrides
 	double calculateCost();
-	std::string toString();
+	void toString();
 };
 
 #endif

@@ -19,25 +19,68 @@
 #include "OvernightParcel.h"
 #include "GroundParcel.h"
 #include "Main.h"
+#include "ParcelIO.h"
 #include <iostream>
 #include <iomanip>
 #include <string>
 #include <vector>
+#include <fstream>
 
 using namespace std;
 
 // Create vectors to store the parcels and contacts the user makes
 vector<Parcel*> parcels;
 vector<Contact> contacts;
+ParcelIO parcelIO;
 
 /**
  * Initializes the static variables that are shared between all parcels.
  */
-void initializeStatic() {
-	BasicFee = validateInputD("Please enter the basic shipping fee for all parcels: $");
-	StandardWeight = validateInputD("Please enter the maximum weight (in oz) before extra charge (standard weight) for all overnight parcels: ");
-	CostPerOunce = validateInputD("Please enter the cost per ounce for all parcels: $");
+void initializeStatic(bool override) {
+	std::vector<double> config;
+
+	if (!override)
+		config = parcelIO.readConfig();
+
+	if (config.empty() || config.size() < 3) {
+		// Config is not setup
+		//cout << "[--- Configuration is not set up or corrupt, please set these values ----]" << endl;
+		BasicFee = validateInputD("Please enter the basic shipping fee for all parcels: $");
+		StandardWeight = validateInputD("Please enter the maximum weight (in oz) before extra charge (standard weight) for all overnight parcels: ");
+		CostPerOunce = validateInputD("Please enter the cost per ounce for all parcels: $");
+		parcelIO.writeConfig(BasicFee, StandardWeight, CostPerOunce);
+	} else {
+		// Will use preset config data
+		BasicFee = config[0];
+		StandardWeight = config[1];
+		CostPerOunce = config[2];
+	}
 }
+
+/**
+ * Initializes the file input and output locations
+ */
+void initializeFileIO() {
+	parcelIO.setConfigFile("Config.bin");
+	parcelIO.setFileLocation("Ground.bin", "Overnight.bin", "Contact.bin");
+}
+
+void modifyConfigOrContact() {
+	cout << "_____________________________________________" << endl;
+	cout << "What would you like to do now? Enter the corresponding number: " << endl;
+	cout << "1" << " - " << "Modify configuration file" << endl;
+	cout << "2" << " - " << "Manage contacts" << endl;
+	cout << "Other Numbers" << " - " << "Back" << endl;
+	cout << "_____________________________________________" << endl;
+	switch(validateInputI("", true)) {
+		case 1:
+			initializeStatic(true);
+		break;
+		case 2:
+			handleContact();
+	}
+}
+
 
 /**
  * Reutrns a string value entered by the user.
@@ -152,9 +195,9 @@ Contact* handleContact()
 
 	// Ask user to make their choice
 	if(creation)
-		choice = validateInputI("\n_____________________________________________\nWhat would you like to do now? Enter the corresponding number:\n1 - View existing contacts\n2 - Create a new contact\n_____________________________________________\n");
+		choice = validateInputI("\n_____________________________________________\nWhat would you like to do now? Enter the corresponding number:\n1 - View existing contacts\n2 - Create a new contact\n_____________________________________________\n", true);
 	else
-		choice = validateInputI("\n_____________________________________________\nWhat would you like to do now? Enter the corresponding number:\n1 - View existing contacts\n2 - Create a new contact\nOther Numbers - Back\n_____________________________________________\n");
+		choice = validateInputI("\n_____________________________________________\nWhat would you like to do now? Enter the corresponding number:\n1 - View existing contacts\n2 - Create a new contact\nOther Numbers - Back\n_____________________________________________\n", true);
 
 	// Evaluate choice
 	switch (choice) {
@@ -177,7 +220,7 @@ Contact* handleContact()
 				}
 
 				// Select the contact that the user chose
-				int choice = validateInputI(getInputFromUser(""));
+				int choice = validateInputI("", true);
 				if (choice < ContactsSize)
 					userChoice = &contacts[choice];
 				else
@@ -207,9 +250,12 @@ Contact* handleContact()
 				userChoice = &contacts.back();
 				ContactsSize++;
 			}
-				
+
 		}
 	}
+
+	// Anything else done, write to the contacts file
+	parcelIO.writeContacts(contacts);
 
 	// Return the newly created contact or the contact selected by the user.
 	return userChoice;
@@ -300,7 +346,7 @@ void secondaryMenu() {
 	string input;
 
 	// Ask user to make their choice
-	choice = validateInputI("\n_____________________________________________\nPlease select parcel type:\n1 - Ground parcel\n2 - Overnight parcel\nOther Numbers - Return to main menu\n_____________________________________________\n");
+	choice = validateInputI("\n_____________________________________________\nPlease select parcel type:\n1 - Ground parcel\n2 - Overnight parcel\nOther Numbers - Return to main menu\n_____________________________________________\n", true);
 
 	// Examine the user's choice
 	switch (choice) {
@@ -309,7 +355,9 @@ void secondaryMenu() {
 	case 2:
 		createOvernightParcel(); break;
 	default:
-		break; // Write all new parcels to external file
+		// Anything else done, write to the parcel file
+		parcelIO.writeParcels(parcels);
+		break;
 	}
 }
 
@@ -317,15 +365,16 @@ void secondaryMenu() {
  * Runs the primary menu, which gives the user the options to make contacts, process parcels, and update and track overnight parcel statuses.
  */
 void primaryMenu() {
-	string input;
-
+	cout << "---------------------------------------------" << endl;
+	cout << "ParcelManagerSystem (Project 3 Part II)" << endl;
+	cout << "---------------------------------------------" << endl;
 	// Ask user to make their choice
-	choice = validateInputI("\n_____________________________________________\nEnter your service selection:\n0 - Manage contacts.\n1 - Process a parcel request.\n2 - Update the status of an overnight parcel.\n3 - Track the status of an overnight parcel.\nOther Numbers - Print parcel info and exit this program.\n_____________________________________________\n");
+	choice = validateInputI("0 - Edit config or Manage contacts.\n1 - Process a parcel request.\n2 - Update the status of an overnight parcel.\n3 - Track the status of an overnight parcel.\nOther Numbers - Print parcel info and exit this program.\n_____________________________________________\n", true);
 
 	// Examine the user's choice
 	switch (choice) {
 	case 0:
-		handleContact(); break;
+		modifyConfigOrContact(); break;
 	case 1:
 		secondaryMenu(); break;
 	case 2:
@@ -352,8 +401,7 @@ int trackStatus() {
 	for (int i = 0; i < parcels.size(); i++) {
 		if (parcels[i].trackingNumber == choice) {
 			// Print out the information for the first parcel that has a matching tracking number
-			cout << parcels[i]->toString() << endl;
-
+			parcels[i]->toString();
 			// Target the parcel in case it needs to be updated
 			Target = &parcels[i];
 
@@ -398,8 +446,31 @@ void printAllParcels() {
 	cout << fixed;
 
 	// Print out information on all the parcels the user created
-	for (int i = 0; i < parcels.size(); i++)
-		cout << setprecision(2) << "Parcel #" << i + 1 << ":\n" << parcels[i]->toString() << endl;
+	for (int i = 0; i < parcels.size(); i++) {
+		cout << "---------------------------------------------" << endl;
+		cout << "Parcel #" << i + 1 << ":\n";
+		parcels[i]->toString();
+	}
+}
+
+/**
+ * Reads the file binary
+ */
+void readFileIOData() {
+	contacts = parcelIO.readContacts();
+	ContactsSize = contacts.size();
+
+	// Reads ground parcels
+	vector<GroundParcel> gpVector = parcelIO.readGroundParcels();
+	for (int gpIndex = 0; gpIndex < gpVector.size(); ++gpIndex) {
+		parcels.push_back(new GroundParcel(gpVector[gpIndex]));
+	}
+
+	// Reads overnight parcels
+	vector<OvernightParcel> opVector = parcelIO.readOvernightParcels();
+	for (int opIndex = 0; opIndex < opVector.size(); ++opIndex) {
+		parcels.push_back(new OvernightParcel(opVector[opIndex]));
+	}
 }
 
 /**
@@ -407,12 +478,16 @@ void printAllParcels() {
  * @param string,		Tells the user what value the program is looking for
  * @return int,			Valid integer input
  */
-int validateInputI(string instructions) {
+int validateInputI(string instructions, bool choice) {
 	bool ok = false;
 	int input = -1;
 	do {
 		try {
-			input = stoi(getInputFromUser(instructions));
+			cout << instructions;
+			if (choice)
+				input = stoi(getInputFromUser("Choice: "));
+				else
+			input = stoi(getInputFromUser(""));
 			if (input < 0)
 				throw "Negative number";
 			ok = true;
@@ -453,13 +528,22 @@ double validateInputD(string instructions) {
  */
 int main()
 {
+	// Initialize files for the input/output
+	initializeFileIO();
+
 	// Initialize the static variables
 	initializeStatic();
+
+	// Read the file data - Parcels and Contacts
+	readFileIOData();
 
 	// Begin the program's main loop to construct parcels
 	do {
 		primaryMenu();
 	} while (go == true);
+
+	// Write out the parcels at the end - just incase it wasnt done
+	parcelIO.write(parcels, contacts);
 
 	// Print all of the parcels
 	printAllParcels();

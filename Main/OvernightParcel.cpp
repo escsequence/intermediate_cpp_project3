@@ -13,6 +13,7 @@
 #include "OvernightParcel.h"
 #include "Main.h"
 #include <string>
+#include <iomanip>
 
 using namespace std;
 
@@ -21,6 +22,14 @@ using namespace std;
  */
 OvernightParcel::OvernightParcel() {}
 
+// OvernightParcel::OvernightParcel(OvernightParcel &op) {
+// 	this->parcelNumber = op.getParcelNumber();
+// 	this->trackingNumber = op.getTrackingNumber();
+// 	this->name = op.getName();
+// 	this->weight = op.getWeight();
+// 	this->senderAddress = op.getSenderAddress();
+// 	this->receiverAddress = op.getReceiverAddress();
+// }
 /**
  * Destructor for OvernightParcel
  */
@@ -101,26 +110,31 @@ double OvernightParcel::calculateCost()
  * Outputs all information about this OvernightParcel
  * @return string,		String value of concatenated values for this object.
  */
-string OvernightParcel::toString()
+void OvernightParcel::toString()
 {
-	string s = "Overnight Parcel " + name + " (#" + to_string(parcelNumber) + ")\nWeight: " + to_string(getWeight()) + " oz\nTracking Number: " + to_string(trackingNumber) + 
-		"\n\nFROM:\n" + senderAddress.toString() + "\n\nTO:\n" + receiverAddress.toString() + "\nSent for $" + to_string(calculateCost()) + "($" + to_string(getFee()) + 
-		" basic fee and $" + to_string(getCostPerOz()) + " for each ounce over " + to_string(getStandardWeight()) + " oz).\n\n";
+	cout << setprecision(2);
+	cout << "Overnight Parcel " << name << " (#" << parcelNumber << ")" << endl;
+	cout << "Weight: " << getWeight() << " oz" << endl;
+	cout << "Tracking Number" << trackingNumber << endl << endl;
+	cout << "FROM:" << endl << senderAddress.toString() << endl << endl;
+	cout << "TO:" << endl << receiverAddress.toString() << endl;
+	cout << "Sent for $" << calculateCost() << "($" << getFee();
+	cout << " basic fee and $" << getCostPerOz() << " for each ounce over ";
+	cout << getStandardWeight() << " oz. )" << endl << endl;
 
 	switch (state) {
-		case Delivered: 
+		case Delivered:
 		{
-			s += "Parcel Status: DELIVERED\n\n";
+			cout << "Parcel Status: DELIVERED" << endl << endl;
 		}
 		case InTransition:
 		{
-			s += "Pacel Status: IN TRANSITION\n\n";
+			cout << "Parcel Status: IN TRANSITION" << endl << endl;
 		}
 		default:
 		{
-			s += "Parcel Status: UNKNOWN\n\n";
+			cout << "Parcel Status: UNKNOWN" << endl << endl;
 		}
 	}
-
-	return s;
+	cout << "---------------------------------------------" << endl;
 }

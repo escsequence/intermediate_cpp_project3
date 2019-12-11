@@ -27,7 +27,13 @@ static double CostPerOunce;
 static OvernightParcel *Target;
 
 // This funciton asks the user for all the values needed for the program's static variables
-void initializeStatic();
+void initializeStatic(bool override = false);
+
+// This function sets up the location for reading the input and outputs
+void initializeFileIO();
+
+// This is the menu to get whether the user wants to modify the config or contacts
+void modifyConfigOrContact();
 
 // This function asks the user for all the input needed to make a GroundParcel object
 void createGroundParcel();
@@ -36,7 +42,7 @@ void createGroundParcel();
 void createOvernightParcel();
 
 //Keeps prompting the user for input until they return something valid
-int validateInputI(std::string instructions);
+int validateInputI(std::string instructions, bool choice = false);
 
 //Keeps prompting the user for input until they return something valid
 double validateInputD(std::string instructions);
@@ -61,6 +67,9 @@ Contact MakeNewContact();
 
 // Prompts the user for a value and returns it
 std::string getInputFromUser(std::string msg);
+
+// Loads in data from the file binary
+void readFileIOData();
 
 // Getters
 double getFee();

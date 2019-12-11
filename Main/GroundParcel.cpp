@@ -13,6 +13,7 @@
 #include "GroundParcel.h"
 #include "Main.h"
 #include <string>
+#include <iomanip>
 
 using namespace std;
 
@@ -53,10 +54,14 @@ double GroundParcel::calculateCost() {
  * Outputs all information about this GroundParcel
  * @return string,		String value of concatenated values for this object.
  */
-string GroundParcel::toString()
+void GroundParcel::toString()
 {
-	string s = "Ground Parcel " + name + " (#" + to_string(parcelNumber) + ")\nWeight: " + to_string(getWeight()) + " oz\n\nFROM:\n" + senderAddress.toString() + "\n\nTO:\n" 
-		+ receiverAddress.toString() + "\nSent for $" + to_string(calculateCost()) + "($" + to_string(getFee()) + " basic fee and " + to_string(getCostPerOz()) + " per ounce).\n\n";
-
-	return s;
+	cout << setprecision(2);
+	cout << "Ground Parcel " << name << " (#" << parcelNumber << ")" << endl;
+	cout << "Weight: " << getWeight() << " oz" << endl << endl;
+	cout << "FROM:" << endl << senderAddress.toString() << endl << endl;
+	cout << "TO:" << endl << receiverAddress.toString() << endl;
+	cout << "Sent for $" << calculateCost() << " - ($" << getFee();
+	cout << " basic fee and " << getCostPerOz() << " per ounce)." << endl;
+	cout << "---------------------------------------------" << endl;
 }

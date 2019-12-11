@@ -261,3 +261,5 @@ __pycache__/
 *.pyc
 *.zip
 *DS_Store
+
+*.o
