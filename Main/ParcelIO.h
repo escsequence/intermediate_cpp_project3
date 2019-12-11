@@ -20,10 +20,10 @@ class ParcelIO {
     std::string contactFileName;
     std::string configFileName;
 
-    VectorIO<GroundParcel>    groundParcelFile;
-    VectorIO<OvernightParcel> overnightParcelFile;
-    VectorIO<Contact>         contactFile;
-    VectorIO<double>          configFile;
+    VectorIO<GroundParcel>    *groundParcelFile;
+    VectorIO<OvernightParcel> *overnightParcelFile;
+    VectorIO<Contact>         *contactFile;
+    VectorIO<double>          *configFile;
   public:
     // Constructors
     ParcelIO();

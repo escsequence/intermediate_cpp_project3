@@ -15,9 +15,9 @@
 
 // Constructor
 ParcelIO::ParcelIO (std::string groundFile, std::string overnightFile, std::string contactFile) {
-  groundParcelFileName = groundFile;
-  overnightParcelFileName = overnightFile;
-  contactFileName = contactFile;
+  // groundParcelFileName = groundFile;
+  // overnightParcelFileName = overnightFile;
+  // contactFileName = contactFile;
 }
 
 ParcelIO::ParcelIO() {
@@ -28,6 +28,9 @@ void ParcelIO::setFileLocation(std::string groundFile, std::string overnightFile
   groundParcelFileName = groundFile;
   overnightParcelFileName = overnightFile;
   contactFileName = contactFile;
+  groundParcelFile = new VectorIO<GroundParcel>(groundFile);
+  overnightParcelFile = new VectorIO<OvernightParcel>(overnightFile);
+  contactFile = new VectorIO<OvernightParcel>(contactFile);
 }
 
 // This function writes both contacts and parcels
