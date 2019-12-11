@@ -20,7 +20,9 @@ using namespace std;
 /**
  * Standard conatructor for GroundParcel
  */
-GroundParcel::GroundParcel(){}
+GroundParcel::GroundParcel(){
+	this->type = Ground;
+}
 
 /**
  * Destructor for GroundParcel

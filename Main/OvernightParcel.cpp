@@ -20,7 +20,10 @@ using namespace std;
 /**
  * Standard conatructor for OvernightParcel
  */
-OvernightParcel::OvernightParcel() {}
+OvernightParcel::OvernightParcel() {
+	this->state = InTransition;
+	this->type = Overnight;
+}
 
 // OvernightParcel::OvernightParcel(OvernightParcel &op) {
 // 	this->parcelNumber = op.getParcelNumber();
@@ -48,7 +51,7 @@ OvernightParcel::~OvernightParcel() {}
 OvernightParcel::OvernightParcel(int number, string name, double weight, Contact sender, Contact receiver, int trackingNumber) :
 	Parcel(number, name, weight, sender, receiver)
 {
-	this->trackingNumber = number;
+	this->trackingNumber = trackingNumber;
 	this->state = InTransition;
 	this->type = Overnight;
 }
@@ -116,21 +119,23 @@ void OvernightParcel::toString()
 	cout << setprecision(2);
 	cout << "Overnight Parcel " << name << " (#" << parcelNumber << ")" << endl;
 	cout << "Weight: " << getWeight() << " oz" << endl;
-	cout << "Tracking Number" << trackingNumber << endl << endl;
+	cout << "Tracking Number: #" << trackingNumber << endl << endl;
 	cout << "FROM:" << endl << senderAddress.toString() << endl << endl;
 	cout << "TO:" << endl << receiverAddress.toString() << endl;
 	cout << "Sent for $" << calculateCost() << "($" << getFee();
 	cout << " basic fee and $" << getCostPerOz() << " for each ounce over ";
-	cout << getStandardWeight() << " oz. )" << endl << endl;
+	cout << getStandardWeight() << " oz.)." << endl << endl;
 
 	switch (state) {
 		case Delivered:
 		{
 			cout << "Parcel Status: DELIVERED" << endl << endl;
+			break;
 		}
 		case InTransition:
 		{
 			cout << "Parcel Status: IN TRANSITION" << endl << endl;
+			break;
 		}
 		default:
 		{

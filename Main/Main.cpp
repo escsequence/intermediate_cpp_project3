@@ -395,7 +395,7 @@ void primaryMenu() {
  */
 int trackStatus() {
 	// Have the user input the tracking number of the desired parcel
-	int choice = validateInputI(getInputFromUser("Please enter the tracking number of an Overnight Parcel: #"));
+	int choice = validateInputI("Please enter the tracking number of an Overnight Parcel: #", false);
 
 	// Check the array for parcels with the same tracking number
 	for (int i = 0; i < parcels.size(); i++) {
@@ -427,15 +427,17 @@ int trackStatus() {
 void updateStatus() {
 	if (trackStatus() == 1) {
 		// Have the user input the tracking number of the desired parcel
-		int choice = validateInputI(getInputFromUser("Please select a new status for this parcel:\n1 - In Transition\n2 - Delivered\nOther Numbers - Return to Menu"));
+		int choice = validateInputI("Please select a new status for this parcel:\n1 - In Transition\n2 - Delivered\nOther Numbers - Return to Menu\n_____________________________________________\n", true);
 		switch (choice) {
 			case 1: {
 				Target->setStatus(InTransition);
 				cout << "Success! This parcel is now marked as \"In Transition.\"" << endl << endl;
+				break;
 			}
 			case 2: {
 				Target->setStatus(Delivered);
 				cout << "Success! This parcel is now marked as \"Delivered.\"" << endl << endl;
+				break;
 			}
 			default: {
 				cout << "Returning to menu...." << endl << endl;
