@@ -91,6 +91,14 @@ int Parcel::getParcelNumber() {
 }
 
 /**
+ * Returns parcel type
+ * @return ParcelType,   Ground or overnight
+ */
+ParcelType Parcel::getType() {
+	return type;
+}
+
+/**
  * Returns current name for parcel
  * @return string,  Parcel name
  */

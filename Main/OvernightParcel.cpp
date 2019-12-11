@@ -50,6 +50,7 @@ OvernightParcel::OvernightParcel(int number, string name, double weight, Contact
 {
 	this->trackingNumber = number;
 	this->state = InTransition;
+	this->type = Overnight;
 }
 
 /**

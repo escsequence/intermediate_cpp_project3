@@ -13,12 +13,15 @@
 #define PARCEL_H
 #include "Contact.h"
 
+enum ParcelType { Ground, Overnight };
+
 class Parcel {
   protected:
     // Parcel information
-    int parcelNumber;
+	ParcelType type;
+	int parcelNumber;
     std::string name;
-	  double weight;
+	double weight;
 
     // Contact information
     Contact senderAddress;
@@ -46,6 +49,7 @@ class Parcel {
     Contact getSenderAddress();
     Contact getReceiverAddress();
     int getParcelNumber();
+	ParcelType getType();
 
     virtual double calculateCost() = 0;
     virtual void toString() = 0;

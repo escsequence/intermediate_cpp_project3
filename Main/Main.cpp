@@ -399,18 +399,24 @@ int trackStatus() {
 
 	// Check the array for parcels with the same tracking number
 	for (int i = 0; i < parcels.size(); i++) {
-		if (parcels[i].trackingNumber == choice) {
-			// Print out the information for the first parcel that has a matching tracking number
-			parcels[i]->toString();
-			// Target the parcel in case it needs to be updated
-			Target = &parcels[i];
+		// Confirm that the parcel can be cast to overnight
+		if (parcels[i]->getType() == Overnight) {
+			// Dynamic cast the parcel back to overnight
+			Target = dynamic_cast<OvernightParcel*>(parcels[i]);
 
-			// Return a variable to tell updateStatus() whether or not there's something to update. When trackStatus() is called directly, it's just a dummy.
-			return 1;
+			// Compare the tracking number to the target
+			if (Target->getTrackingNumber() == choice) {
+				// Print out the information for the first parcel that has a matching tracking number
+				parcels[i]->toString();
+
+				// Return a variable to tell updateStatus() whether or not there's something to update. When trackStatus() is called directly, it's just a dummy.
+				return 1;
+			}
 		}
 	}
 
 	// If there is no matching parcel, inform the user
+	Target = NULL;
 	cout << "Sorry, there are no overnight parcels with the tracking number #" << choice << "." << endl << endl;
 	return 0;
 }
