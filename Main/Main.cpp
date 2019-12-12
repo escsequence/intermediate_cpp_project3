@@ -13,25 +13,18 @@
  /*
  * New program for testing the Ground Parcel and Overnight Parcel classes (driver)
  */
-
 #include "pch.h"
-#include "Parcel.h"
-#include "OvernightParcel.h"
-#include "GroundParcel.h"
 #include "Main.h"
-#include "ParcelIO.h"
-#include <iostream>
-#include <iomanip>
-#include <string>
-#include <vector>
-#include <fstream>
 
-using namespace std;
+// Vectors containing parcels and contacts
+vector<Parcel*> 					parcels;
+vector<Contact> 					contacts;
 
-// Create vectors to store the parcels and contacts the user makes
-vector<Parcel*> parcels;
-vector<Contact> contacts;
-ParcelIO parcelIO;
+// These are the connections to the files
+VectorIO<GroundParcel>    *groundParcelFile;
+VectorIO<OvernightParcel> *overnightParcelFile;
+VectorIO<Contact>         *contactsFile;
+VectorIO<double>          *configFile;
 
 /**
  * Initializes the static variables that are shared between all parcels.
@@ -40,15 +33,21 @@ void initializeStatic(bool override) {
 	std::vector<double> config;
 
 	if (!override)
-		config = parcelIO.readConfig();
+		config = configFile->read();
 
 	if (config.empty() || config.size() < 3) {
 		// Config is not setup
-		//cout << "[--- Configuration is not set up or corrupt, please set these values ----]" << endl;
 		BasicFee = validateInputD("Please enter the basic shipping fee for all parcels: $");
 		StandardWeight = validateInputD("Please enter the maximum weight (in oz) before extra charge (standard weight) for all overnight parcels: ");
 		CostPerOunce = validateInputD("Please enter the cost per ounce for all parcels: $");
-		parcelIO.writeConfig(BasicFee, StandardWeight, CostPerOunce);
+
+		std::vector<double> items;
+		items.push_back(BasicFee);
+		items.push_back(StandardWeight);
+		items.push_back(CostPerOunce);
+
+		// Write the config
+		configFile->write(items);
 	} else {
 		// Will use preset config data
 		BasicFee = config[0];
@@ -61,10 +60,15 @@ void initializeStatic(bool override) {
  * Initializes the file input and output locations
  */
 void initializeFileIO() {
-	parcelIO.setConfigFile("Config.bin");
-	parcelIO.setFileLocation("Ground.bin", "Overnight.bin", "Contact.bin");
+	groundParcelFile = new VectorIO<GroundParcel>("Ground.txt");
+	overnightParcelFile = new VectorIO<OvernightParcel>("Overnight.txt");
+	contactsFile = new VectorIO<Contact>("Contact.txt");
+	configFile = new VectorIO<double>("Config.txt");
 }
 
+/**
+ * Prompt message to ask use if they want to modify the contact or the config
+ */
 void modifyConfigOrContact() {
 	cout << "_____________________________________________" << endl;
 	cout << "What would you like to do now? Enter the corresponding number: " << endl;
@@ -80,7 +84,6 @@ void modifyConfigOrContact() {
 			handleContact();
 	}
 }
-
 
 /**
  * Reutrns a string value entered by the user.
@@ -255,7 +258,7 @@ Contact* handleContact()
 	}
 
 	// Anything else done, write to the contacts file
-	parcelIO.writeContacts(contacts);
+	writeFileData();
 
 	// Return the newly created contact or the contact selected by the user.
 	return userChoice;
@@ -356,7 +359,7 @@ void secondaryMenu() {
 		createOvernightParcel(); break;
 	default:
 		// Anything else done, write to the parcel file
-		parcelIO.writeParcels(parcels);
+		writeFileData();
 		break;
 	}
 }
@@ -462,23 +465,43 @@ void printAllParcels() {
 }
 
 /**
- * Reads the file binary
+ * Reads the file data
  */
-void readFileIOData() {
-	contacts = parcelIO.readContacts();
+void readFileData() {
+	contacts = contactsFile->read();
 	ContactsSize = contacts.size();
 
 	// Reads ground parcels
-	vector<GroundParcel> gpVector = parcelIO.readGroundParcels();
+	vector<GroundParcel> gpVector = groundParcelFile->read();
 	for (int gpIndex = 0; gpIndex < gpVector.size(); ++gpIndex) {
 		parcels.push_back(new GroundParcel(gpVector[gpIndex]));
 	}
 
+
 	// Reads overnight parcels
-	vector<OvernightParcel> opVector = parcelIO.readOvernightParcels();
+	vector<OvernightParcel> opVector = overnightParcelFile->read();
 	for (int opIndex = 0; opIndex < opVector.size(); ++opIndex) {
 		parcels.push_back(new OvernightParcel(opVector[opIndex]));
 	}
+}
+
+/**
+ * Writes the file data
+ */
+void writeFileData() {
+	std::vector<GroundParcel> groundParcels;
+	std::vector<OvernightParcel> overnightParcels;
+
+	// Seperate the parcel types
+	for (int index = 0; index < parcels.size(); ++index)
+		if (parcels[index]->getType() == Ground)
+			groundParcels.push_back(dynamic_cast<GroundParcel&>(*parcels[index]));
+		else
+			overnightParcels.push_back(dynamic_cast<OvernightParcel&>(*parcels[index]));
+
+	contactsFile->write(contacts);
+	groundParcelFile->write(groundParcels);
+	overnightParcelFile->write(overnightParcels);
 }
 
 /**
@@ -543,7 +566,7 @@ int main()
 	initializeStatic();
 
 	// Read the file data - Parcels and Contacts
-	readFileIOData();
+	readFileData();
 
 	// Begin the program's main loop to construct parcels
 	do {
@@ -551,7 +574,7 @@ int main()
 	} while (go == true);
 
 	// Write out the parcels at the end - just incase it wasnt done
-	parcelIO.write(parcels, contacts);
+	writeFileData();
 
 	// Print all of the parcels
 	printAllParcels();

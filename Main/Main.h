@@ -11,8 +11,19 @@
 
 #ifndef MAIN_H
 #define MAIN_H
+#include "VectorIO.h"
 #include "Contact.h"
 #include "OvernightParcel.h"
+#include "Parcel.h"
+#include "OvernightParcel.h"
+#include "GroundParcel.h"
+#include <iostream>
+#include <iomanip>
+#include <string>
+#include <vector>
+#include <fstream>
+using namespace std;
+
 
 // Variables used to run the loops and switches
 static bool go = true;
@@ -69,7 +80,9 @@ Contact MakeNewContact();
 std::string getInputFromUser(std::string msg);
 
 // Loads in data from the file binary
-void readFileIOData();
+void readFileData();
+
+void writeFileData();
 
 // Getters
 double getFee();
